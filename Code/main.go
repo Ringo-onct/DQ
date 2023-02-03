@@ -2,25 +2,22 @@ package main
 
 import "fmt"
 
-<<<<<<< HEAD
 type player struct {
-	player_hp int
-	player_dmg int
-	player_atk int
-	player_atk_c int
+	hp int
+	dmg int
+	atk int
+	atk_c int
 }
 
 type monster struct {
-	monster_hp int
-	monster_dmg int
-	monster_atk int
-	monster_atk_c int
+	hp int
+	dmg int
+	atk int
+	atk_c int
 }
 
 func main(){
-=======
 func main() {
->>>>>>> d409a83750015a5c8c7dc2aec7c5d4c6cf4fd90c
 
 	var (
 		action int
