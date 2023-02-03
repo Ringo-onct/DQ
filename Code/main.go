@@ -1,9 +1,10 @@
 package main
+
 import "fmt"
 
-func main(){
+func main() {
 
-	var(
+	var (
 		action int
 	)
 
@@ -28,7 +29,7 @@ func main(){
 		}
 
 		//モンスターの行動
-		fmt.Println("ようすをみている\n")
+		fmt.Println("ようすをみている")
 
 	}
 }
