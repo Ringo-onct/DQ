@@ -16,7 +16,6 @@ type monster struct {
 	atk_c int
 }
 
-func main(){
 func main() {
 
 	var (
