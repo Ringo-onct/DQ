@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
 
 type Status struct {
 	name   string
@@ -10,6 +14,8 @@ type Status struct {
 	def    int
 	luk    int
 	action int
+}
+
 type player struct {
 	hp int
 	dmg int
@@ -26,15 +32,31 @@ type monster struct {
 
 func main() {
 
-	var (
-	//action int	廃止
-	)
-
 	p_sta := new(Status)
+	p := new(player)	//この二つは仮置き。後で名前変える予定
+	m := new(monster)
+
+	//乱数発生
+	rand.Seed(time.Now().UnixNano())
+
+	//仮でそれぞれのステータス割り振る。これは後で別関数で読み込めるようにする。
+	p.hp = 10
+	p.atk = 8
+	p.atk_c = 3
+	m.hp = 50
+	m.atk = 3
+	m.atk 1
 
 	for true {
 
+		//HP表示
+		fmt.Println("---------------------")
+		fmt.Println("| PLAYER : %4d     |", p.hp)
+		fmt.Println("| MONSTER: %4d     |", m.hp)
+		fmt.Println("---------------------")
+
 		fmt.Println("0:にげる")
+		fmt.Println("1:こうげき")
 		fmt.Printf("行動の選択>")
 		fmt.Scan(&p_sta.action)
 
@@ -44,12 +66,19 @@ func main() {
 		case 0:
 			fmt.Println("にげだした。。")
 
+		case 1:
+			fmt.Println("プレイヤーのこうげき")
+			//ダメージ計算
+			p.dmg = rand.intn(100) % p.atk + p.atk_c
+			fmt.Println("プレイヤーは%dのダメージをあたえた！", p.dmg)
+
 		default:
-			fmt.Println("こんんらんしている")
+			fmt.Println("こんらんしている")
 		}
 
-		if p_sta.action == 0 {
-			break
+		//プレイヤーの行動
+		switch p_sta.action {
+			//今ここ書いてた
 		}
 
 		//モンスターの行動
