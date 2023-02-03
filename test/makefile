@@ -3,3 +3,6 @@ b:
 
 r:
 	go run ..\Code\main.go
+
+tag:
+	git push origin --tags
