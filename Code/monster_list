@@ -1,0 +1,15 @@
+//mob名 hp mp atk def int dex agi luk action1 action2 action 3 action4 etc
+スライム 10 0 2 2 2 2 2 10 () () ()
+ゴブリン
+ゴースト
+スケルトン
+ヴァンパイア
+ゾンビ
+リッチ
+ガーゴイル
+グリフォン
+ケルベロス
+コカトリス
+ワーム
+ゴーレム
+ドラゴン
