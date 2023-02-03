@@ -1,6 +1,8 @@
 package main
+
 import "fmt"
 
+<<<<<<< HEAD
 type player struct {
 	player_hp int
 	player_dmg int
@@ -16,8 +18,11 @@ type monster struct {
 }
 
 func main(){
+=======
+func main() {
+>>>>>>> d409a83750015a5c8c7dc2aec7c5d4c6cf4fd90c
 
-	var(
+	var (
 		action int
 	)
 
@@ -42,7 +47,7 @@ func main(){
 		}
 
 		//モンスターの行動
-		fmt.Println("ようすをみている\n")
+		fmt.Println("ようすをみている")
 
 	}
 }
