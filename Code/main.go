@@ -10,6 +10,18 @@ type Status struct {
 	def    int
 	luk    int
 	action int
+type player struct {
+	hp int
+	dmg int
+	atk int
+	atk_c int
+}
+
+type monster struct {
+	hp int
+	dmg int
+	atk int
+	atk_c int
 }
 
 func main() {
