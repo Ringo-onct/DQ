@@ -17,23 +17,23 @@ type Status struct {
 }
 
 type player struct {
-	hp int
-	dmg int
-	atk int
-	atk_c int
+	hp      int
+	dmg     int
+	atk     int
+	atk_min int
 }
 
 type monster struct {
-	hp int
-	dmg int
-	atk int
-	atk_c int
+	hp      int
+	dmg     int
+	atk     int
+	atk_min int
 }
 
 func main() {
 
 	p_sta := new(Status)
-	p := new(player)	//この二つは仮置き。後で名前変える予定
+	p := new(player) //この二つは仮置き。後で名前変える予定
 	m := new(monster)
 
 	//乱数発生
@@ -42,10 +42,10 @@ func main() {
 	//仮でそれぞれのステータス割り振る。これは後で別関数で読み込めるようにする。
 	p.hp = 10
 	p.atk = 8
-	p.atk_c = 3
+	p.atk_min = 3
 	m.hp = 50
 	m.atk = 3
-	m.atk 1
+	m.atk = 1
 
 	for true {
 
@@ -69,7 +69,7 @@ func main() {
 		case 1:
 			fmt.Println("プレイヤーのこうげき")
 			//ダメージ計算
-			p.dmg = rand.intn(100) % p.atk + p.atk_c
+			p.dmg = rand.intn(100)%p.atk + p.atk_min
 			fmt.Println("プレイヤーは%dのダメージをあたえた！", p.dmg)
 
 		default:
@@ -78,7 +78,7 @@ func main() {
 
 		//プレイヤーの行動
 		switch p_sta.action {
-			//今ここ書いてた
+		//今ここ書いてた
 		}
 
 		//モンスターの行動
