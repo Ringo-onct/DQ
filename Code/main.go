@@ -30,13 +30,17 @@ type monster struct {
 	atk_min int
 }
 
+type allfile interface {
+	playerfile()
+	//monsterfile()
+}
 
 func main() {
 	//この形にしろってchatgptに言われた
 	p_sta := status{}
 	m_sta := status{}
-	p := player{}
-	m := monster{}
+	var p player
+	var m monster
 
 	//乱数発生
 	rand.Seed(time.Now().UnixNano())

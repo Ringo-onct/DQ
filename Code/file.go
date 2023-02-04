@@ -7,8 +7,12 @@ import (
 	"strings"
 )
 
+func file (f allfile) {
+	f.playerfile()
+	//f.monsterfile()
+}
 
-func file(p *player) {
+func (g *player) playerfile() {
 
 	filepass, err := os.Open("../Document/player.txt")	//fopen的な何か
 	if err != nil {
@@ -21,9 +25,9 @@ func file(p *player) {
 		line := scanner.Text()
 		if strings.Contains(line, "user1") {
 			fields := strings.Split(line, ",")
-			p.hp, _ = strconv.Atoi(fields[1])
-			p.atk, _ = strconv.Atoi(fields[2])
-			p.atk_min, _ = strconv.Atoi(fields[3])
+			g.hp, _ = strconv.Atoi(fields[1])
+			g.atk, _ = strconv.Atoi(fields[2])
+			g.atk_min, _ = strconv.Atoi(fields[3])
 
 		}
 	}
