@@ -31,8 +31,7 @@ type monster struct {
 }
 
 type allfile interface {
-	playerfile()
-	//monsterfile()
+	datafile()
 }
 
 func main() {
@@ -41,15 +40,11 @@ func main() {
 	m_sta := status{}
 	var p player
 	var m monster
-
 	//乱数発生
 	rand.Seed(time.Now().UnixNano())
 
 	file(&p)	//playerデータ読み込み
-
-	m.hp = 50
-	m.atk = 3
-	m.atk_min = 1
+	file(&m)	//monsterデータ読み込み
 
 	for true {
 
