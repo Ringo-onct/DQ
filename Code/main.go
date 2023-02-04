@@ -34,6 +34,7 @@ type allfile interface {
 	datafile()
 }
 
+
 func main() {
 	//この形にしろってchatgptに言われた
 	p_sta := status{}
