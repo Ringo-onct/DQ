@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type Status struct {
+type status struct {	//小文字にしたら、Goのパッケージ内の関数に小文字から始まる関数内から、被らないらしい。
 	name   string
 	hp     int
 	mp     int
@@ -32,22 +32,16 @@ type monster struct {
 
 
 func main() {
-
-	p_sta := new(Status)
-	m_sta := new(Status)
-	// p := new(player) //この二つは仮置き。後で名前変える予定
-	p := player{}	//こうしろってchatgptに言われた
-	m := new(monster)
+	//この形にしろってchatgptに言われた
+	p_sta := status{}
+	m_sta := status{}
+	p := player{}
+	m := monster{}
 
 	//乱数発生
 	rand.Seed(time.Now().UnixNano())
 
-	//仮でそれぞれのステータス割り振る。これは後で別関数で読み込めるようにする。
-/* 	p.hp = 10
-	p.atk = 8
-	p.atk_min = 3 */
-	//代わりにこっちを試す
-	file(&p)
+	file(&p)	//playerデータ読み込み
 
 	m.hp = 50
 	m.atk = 3

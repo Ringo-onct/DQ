@@ -1,7 +1,7 @@
 package main
 import (
 	"bufio"
-	"fmt"
+	//"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -25,7 +25,6 @@ func file(p *player) {
 			p.atk, _ = strconv.Atoi(fields[2])
 			p.atk_min, _ = strconv.Atoi(fields[3])
 
-			fmt.Printf("hp: %d, atk: %d, atk_min = %d\n", p.hp, p.atk, p.atk_min)
 		}
 	}
 
