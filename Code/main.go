@@ -30,20 +30,25 @@ type monster struct {
 	atk_min int
 }
 
+
 func main() {
 
 	p_sta := new(Status)
 	m_sta := new(Status)
-	p := new(player) //この二つは仮置き。後で名前変える予定
+	// p := new(player) //この二つは仮置き。後で名前変える予定
+	p := player{}	//こうしろってchatgptに言われた
 	m := new(monster)
 
 	//乱数発生
 	rand.Seed(time.Now().UnixNano())
 
 	//仮でそれぞれのステータス割り振る。これは後で別関数で読み込めるようにする。
-	p.hp = 10
+/* 	p.hp = 10
 	p.atk = 8
-	p.atk_min = 3
+	p.atk_min = 3 */
+	//代わりにこっちを試す
+	file(&p)
+
 	m.hp = 50
 	m.atk = 3
 	m.atk_min = 1

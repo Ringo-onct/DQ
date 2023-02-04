@@ -1,8 +1,11 @@
+# 毎回パス書くのだるいから、これでええやろ、
+path = ..\Code\main.go ..\Code\file.go
+
 b:
-	go build -o a.exe ..\Code\main.go
+	go build -o a.exe $(path)
 
 r:
-	go run ..\Code\main.go
+	go run $(path)
 
 tag:
 	git push origin --tags
