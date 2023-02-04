@@ -49,11 +49,9 @@ func main() {
 
 	for true {
 
+		fmt.Print("\033[H\033[2J")
 		//HP表示
-		fmt.Println("---------------------")
-		fmt.Printf("| PLAYER : %4d     |\n", p.hp)
-		fmt.Printf("| MONSTER: %4d     |\n", m.hp)
-		fmt.Println("---------------------")
+		console(&p, &m, 1)
 
 		fmt.Println("0:にげる")
 		fmt.Println("1:こうげき")

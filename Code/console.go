@@ -7,7 +7,7 @@ p_sta *status	playerのステータス
 m_sta *status	monsterのステータス
 mode	表示する内容をmodeで選択
 */
-func console(p_sta *status, m_sta *status, mode) {
+func console(p *player, m *monster, mode int) {
 	if mode == 1 {
 		fmt.Println("---------------------")
 		fmt.Printf("| PLAYER : %4d     |\n", p.hp)

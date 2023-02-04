@@ -49,7 +49,6 @@ fmt.Print("\033[<行>;<列>H")
 ```Go
 fmt.Print("\033[2J")
 ```
-
 - 行クリア
 ```Go
 fmt.Print("\033[K")
