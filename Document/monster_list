@@ -1,5 +1,5 @@
-//mob名 hp mp atk def agi luk action1 action2 action 3 action4 etc
-スライム 2 2 2 2 2 2 () () ()
+//mob名 hp atk atk_min def luk mp action1 action2 action 3 action4 etc
+,スライム,2,2,2,2,2,2
 ゴブリン
 ゴースト
 スケルトン

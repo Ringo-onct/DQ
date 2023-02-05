@@ -26,8 +26,8 @@ func console(p_sta *status, m_sta *status, mode int) int {
 
 		case 1:	//体力表示
 			fmt.Println("---------------------")
-			fmt.Printf("| PLAYER : %4d     |\n", p_sta.hp)
-			fmt.Printf("| MONSTER: %4d     |\n", m_sta.hp)
+			fmt.Printf("| %4s: %4d     |\n", p_sta.name, p_sta.hp)
+			fmt.Printf("| %4s: %4d     |\n", m_sta.name, m_sta.hp)
 			fmt.Println("---------------------")
 
 		case 2:	//戦闘終了判定
@@ -38,14 +38,46 @@ func console(p_sta *status, m_sta *status, mode int) int {
 				fmt.Println("プレイヤーはたおれた。。")
 				return 2	//敗北
 			}
+		case 3://エンカウント表示！！
+			fmt.Println(m_sta.name,"があわられた！！")
+		case 4://終了時メッセージ
+			str := "おつかれさまでした。"
+			for _, char1 := range str {
+				fmt.Printf("%c", char1)
+				time.Sleep(130 * time.Millisecond)
+			}
+
+			fmt.Println("")
+			time.Sleep(500 * time.Millisecond)
+			str = "りせっとぼたんを　おしながら"
+			for _, char2 := range str {
+				fmt.Printf("%c", char2)
+				time.Sleep(130 * time.Millisecond)
+			}
+			fmt.Println("")
+			time.Sleep(500 * time.Millisecond)
+			str = "でんげんを　きってください"
+			for _, char3 := range str {
+				fmt.Printf("%c", char3)
+				time.Sleep(130 * time.Millisecond)
+			}
+			fmt.Println("")
 
 
 	}
 	return 0
 }
 
-func prompt(p_sta *status, mode int) {
+func prompt(p_sta *status, mode int) int{
 	switch mode {
+		case 0:	//継続選択
+			fmt.Println("0:やめる")
+			fmt.Println("1:つづける")
+			fmt.Printf("行動の選択>")
+			fmt.Scan(&p_sta.action)
+			fmt.Printf("\n")
+			return p_sta.action
+
 		case 1:	//行動選択
 			fmt.Println("0:にげる")
 			fmt.Println("1:こうげき")
@@ -53,7 +85,7 @@ func prompt(p_sta *status, mode int) {
 			fmt.Scan(&p_sta.action)
 			fmt.Printf("\n")	//見やすくするための改行
 	}
-
+	return 0
 }
 
 func actionP(p_sta *status) {
@@ -62,7 +94,7 @@ func actionP(p_sta *status) {
 
 	switch p_sta.action {
 		case 0:	//戦闘離脱
-			fmt.Println("にげだした。。")
+			fmt.Printf("%sはにげだした。。\n",p_sta.name)
 
 		case 1:	//攻撃
 			fmt.Println("プレイヤーのこうげき")

@@ -21,8 +21,13 @@ func main() {
 	var p_sta status
 	var m_sta status
 
-	fileP(&p_sta)	//playerデータ読み込み
+	fileP(&p_sta)	//playerデータ読み込みここに置くと再読み込みさせないで体力保持できる
+
+	for true {	//戦闘継続ループ
+	console(&p_sta, &m_sta, 0)
 	fileM(&m_sta)	//monsterデータ読み込み
+	console(&p_sta, &m_sta, 3)
+	time.Sleep(2 * time.Second)
 
 	for true {
 
@@ -70,4 +75,14 @@ func main() {
 		time.Sleep(3 * time.Second)
 
 	}
+
+	if prompt(&p_sta, 0) == 0 {
+		break
+	} else {
+		p_sta.hp += 10
+	}
+	}
+
+	console(&p_sta, &m_sta, 4)
+	time.Sleep(2 * time.Second)
 }
