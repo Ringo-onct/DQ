@@ -1,17 +1,12 @@
 package main
 import (
 	"bufio"
-	//"fmt"
 	"os"
 	"strconv"
 	"strings"
 )
 
-func file (f allfile) {
-	f.datafile()
-}
-
-func (p *player) datafile() {
+func fileP(p_sta *status) {
 
 	filepass, err := os.Open("../Document/player_list.txt")	//fopen的な何か
 	if err != nil {
@@ -24,9 +19,9 @@ func (p *player) datafile() {
 		line := scanner.Text()
 		if strings.Contains(line, "user1") {
 			fields := strings.Split(line, ",")
-			p.hp, _ = strconv.Atoi(fields[1])
-			p.atk, _ = strconv.Atoi(fields[2])
-			p.atk_min, _ = strconv.Atoi(fields[3])
+			p_sta.hp, _ = strconv.Atoi(fields[1])
+			p_sta.atk, _ = strconv.Atoi(fields[2])
+			p_sta.atk_min, _ = strconv.Atoi(fields[3])
 
 		}
 	}
@@ -36,7 +31,7 @@ func (p *player) datafile() {
 	}
 }
 
-func (m *monster) datafile() {
+func fileM(m_sta *status) {
 
 	filepass, err := os.Open("../Document/monster_list.txt")	//fopen的な何か
 	if err != nil {
@@ -49,9 +44,9 @@ func (m *monster) datafile() {
 		line := scanner.Text()
 		if strings.Contains(line, "mob1") {
 			fields := strings.Split(line, ",")
-			m.hp, _ = strconv.Atoi(fields[1])
-			m.atk, _ = strconv.Atoi(fields[2])
-			m.atk_min, _ = strconv.Atoi(fields[3])
+			m_sta.hp, _ = strconv.Atoi(fields[1])
+			m_sta.atk, _ = strconv.Atoi(fields[2])
+			m_sta.atk_min, _ = strconv.Atoi(fields[3])
 
 		}
 	}
