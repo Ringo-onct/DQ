@@ -25,6 +25,7 @@ func main() {
 
 	for true {	//戦闘継続ループ
 	console(&p_sta, &m_sta, 0)
+	time.Sleep(1 * time.Second)
 	fileM(&m_sta)	//monsterデータ読み込み
 	console(&p_sta, &m_sta, 3)
 	time.Sleep(2 * time.Second)
@@ -82,7 +83,7 @@ func main() {
 		p_sta.hp += 10
 	}
 	}
-
+	console(&p_sta, &m_sta, 0)
 	console(&p_sta, &m_sta, 4)
 	time.Sleep(2 * time.Second)
 }
