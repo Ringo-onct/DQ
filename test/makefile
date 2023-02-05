@@ -9,3 +9,6 @@ r:
 
 tag:
 	git push origin --tags
+
+log:
+	git fsck

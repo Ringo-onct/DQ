@@ -68,6 +68,10 @@ func actionP(p_sta *status) {
 			fmt.Println("プレイヤーのこうげき")
 			//ダメージ計算
 			p_sta.dmg = rand.Intn(p_sta.atk) + p_sta.atk_min
+			if rand.Int() % 20 == 0 {	//5%くらい
+				fmt.Println("！！！！かいしんのいちげき！！！！")
+				p_sta.dmg *= 2	//実はかいしんのいちげきって、防御力無視で二倍なんですよね。
+			}
 			fmt.Printf("プレイヤーは%dのダメージをあたえた！\n", p_sta.dmg)
 		default:
 			fmt.Println("こんらんしている")
@@ -77,12 +81,18 @@ func actionP(p_sta *status) {
 func actionM(m_sta *status) {
 	//乱数発生
 	rand.Seed(time.Now().UnixNano())
-
+	var x float32	//仮でおいてるやつ。
+	var y float32 = 1.5
 	switch m_sta.action {
 		case 1:	//攻撃
 			fmt.Println("モンスターのこうげき")
 			//ダメージの計算
 			m_sta.dmg = rand.Intn(m_sta.atk) + m_sta.atk_min
+			x = float32(m_sta.dmg)
+			if rand.Int() % 25 == 0 {	//4%くらい
+				fmt.Println("！！！！つうこんのいちげき！！！！")
+				m_sta.dmg = int(x * y)	//実はかいしんのいちげきって、防御力無視で二倍なんですよね。
+			}
 			fmt.Printf("モンスターは%dのダメージをあたえた。\n", m_sta.dmg)
 		default:
 			fmt.Println("モンスターはようすをみている")
