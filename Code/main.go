@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
-	"time"
 )
 
 type status struct {	//小文字にしたら、Goのパッケージ内の関数に小文字から始まる関数内から、被らないらしい。
@@ -41,23 +39,20 @@ func main() {
 	m_sta := status{}
 	var p player
 	var m monster
-	//乱数発生
-	rand.Seed(time.Now().UnixNano())
 
 	file(&p)	//playerデータ読み込み
 	file(&m)	//monsterデータ読み込み
 
 	for true {
 
-		fmt.Print("\033[H\033[2J")
-		//HP表示
-		console(&p, &m, 1)
+		console(&p, &m, 0)	//コンソール画面クリア
+		console(&p, &m, 1)	//体力表示
+		prompt(&p_sta, 1)	//行動選択
 
-		fmt.Println("0:にげる")
-		fmt.Println("1:こうげき")
-		fmt.Printf("行動の選択>")
-		fmt.Scan(&p_sta.action)
-		fmt.Printf("\n")	//見やすくするための改行
+		time.Sleep(1 * time.Second)
+
+		console(&p, &m, 0)	//コンソール画面クリア
+
 		//実際の行動
 		//プレイヤーの行動
 		switch p_sta.action {
@@ -112,6 +107,8 @@ func main() {
 			fmt.Println("プレイヤーはたおれた。。")
 			break
 		}
+
+		time.Sleep(3 * time.Second)
 
 	}
 }
