@@ -14,6 +14,8 @@ type status struct {	//小文字にしたら、Goのパッケージ内の関数�
 	luk		int		//運
 	action	int		//行動
 	dmg		int		//与えたダメージ
+	exp		int 	//味方:蓄積exp 敵：撃破時exp
+	gld		int 	//金
 }
 
 func main() {

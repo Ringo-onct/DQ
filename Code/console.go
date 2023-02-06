@@ -26,8 +26,8 @@ func console(p_sta *status, m_sta *status, mode int) int {
 
 		case 1:	//体力表示
 			fmt.Println("---------------------")
-			fmt.Printf("| %4s: %4d     |\n", p_sta.name, p_sta.hp)
-			fmt.Printf("| %4s: %4d     |\n", m_sta.name, m_sta.hp)
+			fmt.Printf("| %6s: %4d       |\n", p_sta.name, p_sta.hp)
+			fmt.Printf("| %6s: %4d       |\n", m_sta.name, m_sta.hp)
 			fmt.Println("---------------------")
 
 		case 2:	//戦闘終了判定

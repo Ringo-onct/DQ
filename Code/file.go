@@ -46,7 +46,7 @@ func fileM(m_sta *status) {
 	scanner := bufio.NewScanner(filepass)
 	for scanner.Scan() {
 		line := scanner.Text()
-		if strings.Contains(line, "スライム") {
+		if strings.Contains(line, Math(1)) {
 			fields := strings.Split(line, ",")
 			m_sta.name = fields[1]
 			m_sta.hp, _ = strconv.Atoi(fields[2])
@@ -54,7 +54,7 @@ func fileM(m_sta *status) {
 			m_sta.atk_min, _ = strconv.Atoi(fields[4])
 			m_sta.def, _ = strconv.Atoi(fields[5])
 			m_sta.luk, _ = strconv.Atoi(fields[6])
-			m_sta.mp, _ = strconv.Atoi(fields[7])
+			m_sta.mp, _ = strconv.Atoi(fields[7])	//monsterのMPはとして扱う。
 
 		}
 	}
