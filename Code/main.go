@@ -24,7 +24,7 @@ func main() {
 	var m_sta status
 
 	fileP(&p_sta)	//playerデータ読み込みここに置くと再読み込みさせないで体力保持できる
-
+	time.Sleep(2 * time.Second)
 	for true {	//戦闘継続ループ
 	console(&p_sta, &m_sta, 0)
 	time.Sleep(1 * time.Second)

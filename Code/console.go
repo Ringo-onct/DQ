@@ -25,9 +25,28 @@ func console(p_sta *status, m_sta *status, mode int) int {
 				}
 
 		case 1:	//体力表示
+			var (
+				s1, s2 string
+				i1, i2, x int
+			)
+			i1 = (len(p_sta.name) - len(m_sta.name)) / 3
+			i2 = -i1
+			if i1 < 0 {
+				x = 6 - (len(m_sta.name) / 3)
+			} else {
+				x = 6 - (len(p_sta.name) / 3)
+			}
+			for (i1 + x) > 0 {
+				s1 += "　"
+				i1--
+			}
+			for (i2 + x) > 0 {
+				s2 += "　"
+				i2--
+			}
 			fmt.Println("---------------------")
-			fmt.Printf("| %6s: %4d       |\n", p_sta.name, p_sta.hp)
-			fmt.Printf("| %6s: %4d       |\n", m_sta.name, m_sta.hp)
+			fmt.Printf("| %s%s: %-3d |\n", p_sta.name, s2, p_sta.hp)
+			fmt.Printf("| %s%s: %-3d |\n", m_sta.name, s1, m_sta.hp)
 			fmt.Println("---------------------")
 
 		case 2:	//戦闘終了判定
