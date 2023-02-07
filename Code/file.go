@@ -26,7 +26,7 @@ func fileP(p_sta *status) {
 			p_sta.def, _ = strconv.Atoi(fields[5])
 			p_sta.luk, _ = strconv.Atoi(fields[6])
 			p_sta.mp, _ = strconv.Atoi(fields[7])
-
+			
 		}
 	}
 
@@ -42,11 +42,11 @@ func fileM(m_sta *status) {
 		panic(err)
 	}
 	defer filepass.Close()
-
+	seed := Math(1)
 	scanner := bufio.NewScanner(filepass)
 	for scanner.Scan() {
 		line := scanner.Text()
-		if strings.Contains(line, Math(1)) {
+		if strings.Contains(line, seed) {
 			fields := strings.Split(line, ",")
 			m_sta.name = fields[1]
 			m_sta.hp, _ = strconv.Atoi(fields[2])
