@@ -8,7 +8,7 @@ import (
 	"runtime"
 )
 
-func console(p_sta *status, m_sta *status, mode int) int {
+func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表示
 	switch mode {
 		case 0:	//コンソール画面クリア
 			os_which := runtime.GOOS
@@ -57,9 +57,9 @@ func console(p_sta *status, m_sta *status, mode int) int {
 				fmt.Println("プレイヤーはたおれた。。")
 				return 2	//敗北
 			}
-		case 3://エンカウント表示！！
+		case 3:	//エンカウント表示！！
 			fmt.Println(m_sta.name,"があわられた！！")
-		case 4://終了時メッセージ
+		case 4:	//終了時メッセージ
 			str := "おつかれさまでした。"
 			for _, char1 := range str {
 				fmt.Printf("%c", char1)
@@ -81,13 +81,11 @@ func console(p_sta *status, m_sta *status, mode int) int {
 				time.Sleep(130 * time.Millisecond)
 			}
 			fmt.Println("")
-
-
 	}
 	return 0
 }
 
-func prompt(p_sta *status, mode int) int{
+func prompt(p_sta *status, mode int) int{	//選択画面
 	switch mode {
 		case 0:	//継続選択
 			fmt.Println("0:やめる")
@@ -103,6 +101,10 @@ func prompt(p_sta *status, mode int) int{
 			fmt.Printf("行動の選択>")
 			fmt.Scan(&p_sta.action)
 			fmt.Printf("\n")	//見やすくするための改行
+		case 2:	//player選択
+			fmt.Printf("playerの選択>")
+			fmt.Scan(&p_sta.action)
+			return p_sta.action
 	}
 	return 0
 }
@@ -142,10 +144,29 @@ func actionM(m_sta *status) {
 			x = float32(m_sta.dmg)
 			if rand.Int() % 25 == 0 {	//4%くらい
 				fmt.Println("！！！！つうこんのいちげき！！！！")
-				m_sta.dmg = int(x * y)	//実はかいしんのいちげきって、防御力無視で二倍なんですよね。
+				m_sta.dmg = int(x * y)
 			}
 			fmt.Printf("モンスターは%dのダメージをあたえた。\n", m_sta.dmg)
 		default:
 			fmt.Println("モンスターはようすをみている")
 	}
+}
+
+func player_UI(p_sta *[]status, line int) {
+	var (
+		x, i	int
+		s		string
+	)
+	fmt.Println("---------------------")
+
+	for i = 0; i < line; i++ {
+		x = 5 - (len((*p_sta)[i].name) / 3)
+		for x > 0 {
+			s += "　"
+			x--
+		}
+		fmt.Printf("| %d.%s%s|HP:%3d|ATK:%3d|\n", i + 1, (*p_sta)[i].name, s, (*p_sta)[i].hp, (*p_sta)[i].atk)
+	}
+
+	fmt.Println("---------------------")
 }

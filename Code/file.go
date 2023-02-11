@@ -26,7 +26,7 @@ func fileP(p_sta *status) {
 			p_sta.def, _ = strconv.Atoi(fields[5])
 			p_sta.luk, _ = strconv.Atoi(fields[6])
 			p_sta.mp, _ = strconv.Atoi(fields[7])
-			
+
 		}
 	}
 
@@ -62,4 +62,21 @@ func fileM(m_sta *status) {
 	if err := scanner.Err(); err != nil {
 		panic(err)
 	}
+}
+
+//playerデータの量(行数)を調べる
+func linecountP() int {
+	filepass, err := os.Open("../Document/player_list")
+	if err != nil {
+		panic(err)
+	}
+	defer filepass.Close()
+
+	scanner := bufio.NewScanner(filepass)
+	lineCount := 0
+	for scanner.Scan() {
+		lineCount++
+	}
+
+	return lineCount
 }
