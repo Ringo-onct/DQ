@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-func fileP(p_sta *status) {
-
+func fileP(p_sta *status, i int) {
+	var seed string
 	filepass, err := os.Open("../Document/player_list")	//fopen的な何か
 	if err != nil {
 		panic(err)
@@ -17,7 +17,8 @@ func fileP(p_sta *status) {
 	scanner := bufio.NewScanner(filepass)
 	for scanner.Scan() {
 		line := scanner.Text()
-		if strings.Contains(line, "ゆうしゃ") {
+		seed = "a" + strconv.Itoa(i)
+		if strings.Contains(line, seed) {
 			fields := strings.Split(line, ",")
 			p_sta.name = fields[1]
 			p_sta.hp, _ = strconv.Atoi(fields[2])

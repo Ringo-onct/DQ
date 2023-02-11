@@ -23,7 +23,7 @@ func main() {
 	p_sta := make([]status, line)
 
 	for i := 0; i < line; i++ {	//ファイルにある分のplayerデータ読み込み
-		fileP(&p_sta[i])
+		fileP(&p_sta[i], i + 1)
 	}
 
 	//playerデータ表示
@@ -35,7 +35,7 @@ func main() {
 	//一応、今作ってるのはplayerのデータ読み込みだから、monsterはまだ配列対応させない。
 	var m_sta status
 
-	fileP(&p_sta[pl])	//playerデータ読み込みここに置くと再読み込みさせないで体力保持できる
+	fileP(&p_sta[pl], pl + 1)	//playerデータ読み込みここに置くと再読み込みさせないで体力保持できる
 	//↑これも後で消す
 	time.Sleep(2 * time.Second)
 	for true {	//戦闘継続ループ
