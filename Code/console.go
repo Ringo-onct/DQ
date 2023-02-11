@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"bufio"
 )
 
 func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表示
