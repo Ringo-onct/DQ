@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
-	"bufio"
 )
 
 func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表示
@@ -83,29 +82,24 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 }
 
 func prompt(p_sta *status, mode int) int{	//選択画面
-	scanner := bufio.NewScanner(os.Stdin)	//入力バッファのクリア用。準備的な何か。
 	switch mode {
-		case 0:	//継続選択
-			fmt.Println("0:やめる")
-			fmt.Println("1:つづける")
-			fmt.Printf("行動の選択>")
-			scanner.Scan()	//入力バッファのクリア
-			fmt.Scan(&p_sta.action)
-			fmt.Printf("\n")
-			return p_sta.action
+	case 0:	//継続選択
+		fmt.Println("")
+		fmt.Println("やめる　")
+		fmt.Printf("つづける")
+		p_sta.action = chose(2)
+		return p_sta.action
 
-		case 1:	//行動選択
-			fmt.Println("0:にげる")
-			fmt.Println("1:こうげき")
-			fmt.Printf("行動の選択>")
-			scanner.Scan()	//入力バッファのクリア
-			fmt.Scan(&p_sta.action)
-			fmt.Printf("\n")	//見やすくするための改行
-		case 2:	//player選択
-			fmt.Printf("playerの選択>")
-			scanner.Scan()	//入力バッファのクリア
-			fmt.Scan(&p_sta.action)
-			return p_sta.action
+	case 1:	//行動選択
+		fmt.Println("")
+		fmt.Println("にげる　")
+		fmt.Printf("こうげき")
+		p_sta.action = chose(2)
+	case 2:	//player選択
+		fmt.Println("")
+		fmt.Printf("playerの選択>")
+		fmt.Scan(&p_sta.action)
+		return p_sta.action
 	}
 	return 0
 }
