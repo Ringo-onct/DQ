@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-func fileP(p_sta *status) {
-
+func fileP(p_sta *status, i int) {
+	var seed string
 	filepass, err := os.Open("../Document/player_list")	//fopen的な何か
 	if err != nil {
 		panic(err)
@@ -17,7 +17,8 @@ func fileP(p_sta *status) {
 	scanner := bufio.NewScanner(filepass)
 	for scanner.Scan() {
 		line := scanner.Text()
-		if strings.Contains(line, "ゆうしゃ") {
+		seed = "a" + strconv.Itoa(i)
+		if strings.Contains(line, seed) {
 			fields := strings.Split(line, ",")
 			p_sta.name = fields[1]
 			p_sta.hp, _ = strconv.Atoi(fields[2])
@@ -26,7 +27,7 @@ func fileP(p_sta *status) {
 			p_sta.def, _ = strconv.Atoi(fields[5])
 			p_sta.luk, _ = strconv.Atoi(fields[6])
 			p_sta.mp, _ = strconv.Atoi(fields[7])
-			
+
 		}
 	}
 
@@ -62,4 +63,21 @@ func fileM(m_sta *status) {
 	if err := scanner.Err(); err != nil {
 		panic(err)
 	}
+}
+
+//playerデータの量(行数)を調べる
+func linecountP() int {
+	filepass, err := os.Open("../Document/player_list")
+	if err != nil {
+		panic(err)
+	}
+	defer filepass.Close()
+
+	scanner := bufio.NewScanner(filepass)
+	lineCount := 0
+	for scanner.Scan() {
+		lineCount++
+	}
+
+	return lineCount
 }

@@ -19,43 +19,56 @@ type status struct {	//小文字にしたら、Goのパッケージ内の関数�
 }
 
 func main() {
-	//この形にしろってchatgptに言われた
-	var p_sta status
+	line := linecountP()
+	p_sta := make([]status, line)
+
+	for i := 0; i < line; i++ {	//ファイルにある分のplayerデータ読み込み
+		fileP(&p_sta[i], i + 1)
+	}
+
+	//playerデータ表示
+	player_UI(&p_sta, line)
+
+	//player選択
+	pl := prompt(&p_sta[0], 2) - 1
+
+	//一応、今作ってるのはplayerのデータ読み込みだから、monsterはまだ配列対応させない。
 	var m_sta status
 
-	fileP(&p_sta)	//playerデータ読み込みここに置くと再読み込みさせないで体力保持できる
+	fileP(&p_sta[pl], pl + 1)	//playerデータ読み込みここに置くと再読み込みさせないで体力保持できる
+	//↑これも後で消す
 	time.Sleep(2 * time.Second)
 	for true {	//戦闘継続ループ
-	console(&p_sta, &m_sta, 0)
+	console(&p_sta[pl], &m_sta, 0)
 	time.Sleep(1 * time.Second)
 	fileM(&m_sta)	//monsterデータ読み込み
-	console(&p_sta, &m_sta, 3)
+	console(&p_sta[pl], &m_sta, 3)
 	time.Sleep(2 * time.Second)
 
 	for true {
 
-		console(&p_sta, &m_sta, 0)	//コンソール画面クリア
-		console(&p_sta, &m_sta, 1)	//体力表示
-		prompt(&p_sta, 1)	//行動選択
+		console(&p_sta[pl], &m_sta, 0)	//コンソール画面クリア
+		console(&p_sta[pl], &m_sta, 1)	//体力表示
+		prompt(&p_sta[pl], 1)	//行動選択
 
 		time.Sleep(1 * time.Second)
 
-		console(&p_sta, &m_sta, 0)	//コンソール画面クリア
+		console(&p_sta[pl], &m_sta, 0)	//コンソール画面クリア
 
 		//playerの行動
-		actionP(&p_sta)
+		actionP(&p_sta[pl])
 
 		//プレイヤーの行動の結果
-		if p_sta.action == 0 {
+		if p_sta[pl].action == 0 {
 			time.Sleep(1 * time.Second)
-			console(&p_sta, &m_sta, 0)
+			console(&p_sta[pl], &m_sta, 0)
 			break
-		} else if p_sta.action == 1 {
-			m_sta.hp -= p_sta.dmg
+		} else if p_sta[pl].action == 1 {
+			m_sta.hp -= p_sta[pl].dmg
 		}
 
 		//勝敗判定
-		if console(&p_sta, &m_sta, 2) == 1 {
+		if console(&p_sta[pl], &m_sta, 2) == 1 {
 			break
 		}
 
@@ -65,13 +78,13 @@ func main() {
 
 		//モンスターの行動の結果
 		if m_sta.action == 1 {
-			p_sta.hp -= m_sta.dmg
+			p_sta[pl].hp -= m_sta.dmg
 		} else {
 			break
 		}
 
 		//勝敗判定
-		if console(&p_sta, &m_sta, 2) == 2 {
+		if console(&p_sta[pl], &m_sta, 2) == 2 {
 			break
 		}
 
@@ -79,13 +92,13 @@ func main() {
 
 	}
 
-	if prompt(&p_sta, 0) == 0 {
+	if prompt(&p_sta[pl], 0) == 0 {
 		break
 	} else {
-		p_sta.hp += 10
+		p_sta[pl].hp += 10
 	}
 	}
-	console(&p_sta, &m_sta, 0)
-	console(&p_sta, &m_sta, 4)
+	console(&p_sta[pl], &m_sta, 0)
+	console(&p_sta[pl], &m_sta, 4)
 	time.Sleep(2 * time.Second)
 }
