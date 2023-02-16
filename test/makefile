@@ -1,5 +1,5 @@
 # 毎回パス書くのだるいから、これでええやろ、
-path = ..\Code\main.go ..\Code\file.go ..\Code\console.go ..\Code\Math.go
+path = ..\Code\main.go ..\Code\file.go ..\Code\console.go ..\Code\Math.go ..\Code\function.go
 
 b:
 	go build -o a.exe $(path)
