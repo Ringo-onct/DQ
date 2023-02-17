@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"github.com/k0kubun/go-ansi"
 )
 
 func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表示
@@ -77,6 +78,11 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 				time.Sleep(130 * time.Millisecond)
 			}
 			fmt.Println("")
+		case 5://ゲーム開始待機のコンソール画面
+			fmt.Printf("Press ENTER to start")
+			ansi.CursorHide()
+			getkey()
+
 	}
 	return 0
 }
@@ -163,6 +169,6 @@ func player_UI(p_sta *[]status, line int) {
 		}
 		fmt.Printf("| %d.%s%s|HP:%-3d|ATK:%-3d|\n", i + 1, (*p_sta)[i].name, s, (*p_sta)[i].hp, (*p_sta)[i].atk)
 	}
-
+	fmt.Println("|　ぼうけんのしょをつくる　　|")
 	fmt.Println("------------------------------")
 }
