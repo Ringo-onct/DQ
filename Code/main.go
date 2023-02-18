@@ -38,7 +38,7 @@ func main() {
 
 	//player選択
 	pl := prompt(&p_sta[0], 2) - 1
-
+	console(&p_sta[0], &m_sta, 0)
 
 
 	fileP(&p_sta[pl], pl + 1)	//playerデータ読み込みここに置くと再読み込みさせないで体力保持できる

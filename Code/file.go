@@ -43,7 +43,7 @@ func fileM(m_sta *status) {
 		panic(err)
 	}
 	defer filepass.Close()
-	seed := Math(1)
+	seed := math(1)
 	scanner := bufio.NewScanner(filepass)
 	for scanner.Scan() {
 		line := scanner.Text()

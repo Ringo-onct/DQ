@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func Math(mode int) string {
+func math(mode int) string {
 	rand.Seed(time.Now().UnixNano())	//randのシード
 	var (
 		seed string
