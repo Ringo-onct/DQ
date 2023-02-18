@@ -6,7 +6,7 @@ import (
 	"github.com/mattn/go-tty"
 	"github.com/k0kubun/go-ansi"
 )
-func getkey() {
+func getkey() int {
 	key := 0
 	tty, err := tty.Open()
 	if err != nil {
@@ -17,7 +17,7 @@ func getkey() {
 
 	for {
 		r, _ := tty.ReadRune()
-		if r != 0 [
+		if r != 0 {
 			if int(r) == 27 {
 				key = 1
 			} else if r == 91 {
@@ -37,7 +37,7 @@ func getkey() {
 			} else {
 				return int(r)
 			}
-		]
+		}
 	}
 }
 
