@@ -21,12 +21,13 @@ func fileP(p_sta *status, i int) {
 		if strings.Contains(line, seed) {
 			fields := strings.Split(line, ",")
 			p_sta.name = fields[1]
-			p_sta.hp, _ = strconv.Atoi(fields[2])
-			p_sta.atk, _ = strconv.Atoi(fields[3])
-			p_sta.atk_min, _ = strconv.Atoi(fields[4])
-			p_sta.def, _ = strconv.Atoi(fields[5])
-			p_sta.luk, _ = strconv.Atoi(fields[6])
-			p_sta.mp, _ = strconv.Atoi(fields[7])
+			p_sta.atk, _ = strconv.Atoi(fields[2])
+			p_sta.dif, _ = strconv.Atoi(fields[3])
+			p_sta.hp, _ = strconv.Atoi(fields[4])
+			p_sta.mp, _ = strconv.Atoi(fields[5])
+			p_sta.exp, _ = strconv.Atoi(fields[6])
+			p_sta.gold, _ = strconv.Atoi(fields[7])
+			p_sta.lari, _ = strconv.Atoi(fields[8])
 
 		}
 	}
@@ -43,20 +44,22 @@ func fileM(m_sta *status) {
 		panic(err)
 	}
 	defer filepass.Close()
-	seed := Math(1)
+	seed := math(1)
 	scanner := bufio.NewScanner(filepass)
 	for scanner.Scan() {
 		line := scanner.Text()
 		if strings.Contains(line, seed) {
 			fields := strings.Split(line, ",")
 			m_sta.name = fields[1]
-			m_sta.hp, _ = strconv.Atoi(fields[2])
-			m_sta.atk, _ = strconv.Atoi(fields[3])
-			m_sta.atk_min, _ = strconv.Atoi(fields[4])
-			m_sta.def, _ = strconv.Atoi(fields[5])
-			m_sta.luk, _ = strconv.Atoi(fields[6])
-			m_sta.mp, _ = strconv.Atoi(fields[7])	//monsterのMPはとして扱う。
-
+			m_sta.atk, _ = strconv.Atoi(fields[2])
+			m_sta.dif, _ = strconv.Atoi(fields[3])
+			m_sta.hp, _ = strconv.Atoi(fields[4])
+			m_sta.mp, _ = strconv.Atoi(fields[5])
+			m_sta.exp, _ = strconv.Atoi(fields[6])
+			m_sta.gold, _ = strconv.Atoi(fields[7])
+			m_sta.lari, _ = strconv.Atoi(fields[8])
+			m_sta.gira, _ = strconv.Atoi(fields[9])
+			m_sta.avo, _ = strconv.Atoi(fields[10])
 		}
 	}
 
