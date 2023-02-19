@@ -6,9 +6,9 @@ import (
 
 type status struct {	//小文字にしたら、Goのパッケージ内の関数に小文字から始まる関数内から、被らないらしい。
 	name	string	//名前
-	atk		int		//攻撃力
+	atk		int		//攻撃力 (pの攻撃力は、武器の攻撃力 + atk)
 	dmg		int		//与えるダメージ
-	dif		int		//守備力・素早さ
+	dif		int		//守備力・素早さ (pの守備力は、防具の防御力 + dif / 2)
 	hp		int		//体力
 	hp_max	int		//最大体力
 	mp		int		//pはそのままmp,mはマホの回避率
@@ -68,12 +68,12 @@ func main() {
 			console(&p_sta[pl], &m_sta, 0)
 
 			if action == 0 {		//戦闘離脱
-				actionP(&p_sta[pl], 0)
+				actionP(&p_sta[pl], &m_sta, 0)
 				time.Sleep(1 * time.Second)
 				console(&p_sta[pl], &m_sta, 0)
 				break
 			} else if action == 1 {	//戦闘後のダメージ処理
-				actionP(&p_sta[pl], 1)
+				actionP(&p_sta[pl], &m_sta, 1)
 				m_sta.hp -= p_sta[pl].dmg
 			}
 
@@ -84,7 +84,7 @@ func main() {
 
 			time.Sleep(1 * time.Second)
 			//モンスターの行動
-			actionM(&m_sta)
+			actionM(&p_sta[pl], &m_sta)
 
 			//モンスターの行動の結果
 			p_sta[pl].hp -= m_sta.dmg

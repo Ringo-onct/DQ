@@ -4,6 +4,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"math/rand"
+	"time"
 )
 
 func fileP(p_sta *status, i int) {
@@ -23,7 +25,7 @@ func fileP(p_sta *status, i int) {
 			p_sta.name = fields[1]
 			p_sta.atk, _ = strconv.Atoi(fields[2])
 			p_sta.dif, _ = strconv.Atoi(fields[3])
-			p_sta.hp, _ = strconv.Atoi(fields[4])
+			p_sta.hp_max, _ = strconv.Atoi(fields[4])
 			p_sta.mp, _ = strconv.Atoi(fields[5])
 			p_sta.exp, _ = strconv.Atoi(fields[6])
 			p_sta.gold, _ = strconv.Atoi(fields[7])
@@ -35,6 +37,8 @@ func fileP(p_sta *status, i int) {
 	if err := scanner.Err(); err != nil {
 		panic(err)
 	}
+
+	p_sta.hp = p_sta.hp_max
 }
 
 func fileM(m_sta *status) {
@@ -44,7 +48,8 @@ func fileM(m_sta *status) {
 		panic(err)
 	}
 	defer filepass.Close()
-	seed := math(1)
+	rand.Seed(time.Now().UnixNano())
+	seed := "a" + strconv.Itoa(rand.Intn(2))
 	scanner := bufio.NewScanner(filepass)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -53,7 +58,7 @@ func fileM(m_sta *status) {
 			m_sta.name = fields[1]
 			m_sta.atk, _ = strconv.Atoi(fields[2])
 			m_sta.dif, _ = strconv.Atoi(fields[3])
-			m_sta.hp, _ = strconv.Atoi(fields[4])
+			m_sta.hp_max, _ = strconv.Atoi(fields[4])
 			m_sta.mp, _ = strconv.Atoi(fields[5])
 			m_sta.exp, _ = strconv.Atoi(fields[6])
 			m_sta.gold, _ = strconv.Atoi(fields[7])
@@ -66,6 +71,8 @@ func fileM(m_sta *status) {
 	if err := scanner.Err(); err != nil {
 		panic(err)
 	}
+	m_sta.hp = m_sta.hp_max - m_sta.hp_max * rand.Intn(256) / 1024	//モンスターの初期HP設定
+
 }
 
 //playerデータの量(行数)を調べる

@@ -120,7 +120,7 @@ func prompt(p_sta *status, mode int) int{	//選択画面
 	return 0
 }
 
-func actionP(p_sta *status, action int) {
+func actionP(p_sta *status, m_sta *status, action int) {
 	//乱数発生
 	rand.Seed(time.Now().UnixNano())
 
@@ -132,11 +132,11 @@ func actionP(p_sta *status, action int) {
 			fmt.Println("プレイヤーのこうげき")
 			time.Sleep(500 * time.Millisecond)
 			//ダメージ計算
-			p_sta.dmg = rand.Intn(p_sta.atk) //ここは別のissueで変える。今は動くようにするために消した。
-			if rand.Int() % 20 == 0 {	//5%くらい
+			p_sta.dmg = (rand.Intn(256) * (p_sta.atk - m_sta.dif / 2 + 1) / 256 + p_sta.atk - m_sta.dif / 2) / 4
+			if rand.Intn(32) == 0 {	//1 / 32の確立
 				fmt.Println("！！！！かいしんのいちげき！！！！")
 				time.Sleep(500 * time.Millisecond)
-				p_sta.dmg *= 2	//会心の一撃の計算も、別のissueでやる。
+				p_sta.dmg += p_sta.atk - ((p_sta.atk / 2) * rand.Intn(256)) / 256
 			}
 			fmt.Printf("プレイヤーは%dのダメージをあたえた！\n", p_sta.dmg)
 		default:
@@ -144,21 +144,21 @@ func actionP(p_sta *status, action int) {
 	}
 }
 
-func actionM(m_sta *status) {
+func actionM(p_sta *status, m_sta *status) {
 	//乱数発生
 	rand.Seed(time.Now().UnixNano())
-	var x float32	//仮でおいてるやつ。
-	var y float32 = 1.5
+
 	fmt.Println("モンスターのこうげき")
 	time.Sleep(500 * time.Millisecond)
 	//ダメージの計算
-	m_sta.dmg = rand.Intn(m_sta.atk) //ここは別のissueで変える。今は動くようにするために消した。
-	x = float32(m_sta.dmg)
-	if rand.Int() % 25 == 0 {	//4%くらい
-		fmt.Println("！！！！つうこんのいちげき！！！！")
-		time.Sleep(500 * time.Millisecond)
-		m_sta.dmg = int(x * y)
+	if (m_sta.atk - p_sta.dif / 4 ) >= m_sta.atk / 2 + 1 {
+		m_sta.dmg = (rand.Intn(256) * (m_sta.atk - p_sta.dif / 4 + 1) / 256 + m_sta.atk - p_sta.dif / 4) / 4
+	} else if m_sta.atk - p_sta.dif / 2 < 0 {
+		m_sta.dmg = rand.Intn(256) * (m_sta.atk / 2 + 1) / 256 + 2
+	} else {
+		m_sta.dmg = rand.Intn(256) * (m_sta.atk / 2 + 1) / 256 + 2
 	}
+
 	fmt.Printf("モンスターは%dのダメージをあたえた。\n", m_sta.dmg)
 }
 
