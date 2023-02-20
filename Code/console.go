@@ -138,7 +138,12 @@ func actionP(p_sta *status, m_sta *status, action int) {
 				time.Sleep(500 * time.Millisecond)
 				p_sta.dmg += p_sta.atk - ((p_sta.atk / 2) * rand.Intn(256)) / 256
 			}
-			fmt.Printf("プレイヤーは%dのダメージをあたえた！\n", p_sta.dmg)
+
+			if p_sta.dmg == 0 {
+				fmt.Println("ミス！")
+			} else {
+				fmt.Printf("プレイヤーは%dのダメージをあたえた！\n", p_sta.dmg)
+			}
 		default:
 			fmt.Println("こんらんしている")
 	}
@@ -159,7 +164,12 @@ func actionM(p_sta *status, m_sta *status) {
 		m_sta.dmg = rand.Intn(256) * (m_sta.atk / 2 + 1) / 256 + 2
 	}
 
-	fmt.Printf("モンスターは%dのダメージをあたえた。\n", m_sta.dmg)
+	if m_sta.dmg == 0 {
+		fmt.Println("ミス！")
+	} else {
+		fmt.Printf("モンスターは%dのダメージをあたえた！\n", m_sta.dmg)
+	}
+
 }
 
 func player_UI(p_sta *[]status, line int) {
