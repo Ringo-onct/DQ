@@ -141,8 +141,10 @@ func actionP(p_sta *status, m_sta *status, action int) {
 
 			if p_sta.dmg == 0 {
 				fmt.Println("ミス！")
+				time.Sleep(500 * time.Millisecond)
+				fmt.Println("ダメージを　あたえられない！")
 			} else {
-				fmt.Printf("プレイヤーは%dのダメージをあたえた！\n", p_sta.dmg)
+				fmt.Printf("%sは%dのダメージをあたえた！\n", p_sta,name, p_sta.dmg)
 			}
 		default:
 			fmt.Println("こんらんしている")
@@ -166,8 +168,10 @@ func actionM(p_sta *status, m_sta *status) {
 
 	if m_sta.dmg == 0 {
 		fmt.Println("ミス！")
+		time.Sleep(500 * time.Millisecond)
+		fmt.Println("ダメージをうけない！")
 	} else {
-		fmt.Printf("モンスターは%dのダメージをあたえた！\n", m_sta.dmg)
+		fmt.Printf("%sは%dのダメージをうけた！\n", p_sta.name, m_sta.dmg)
 	}
 
 }
