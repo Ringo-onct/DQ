@@ -140,12 +140,13 @@ func save(p_sta *status, line int) {
 }
 
 func makedata(line int) {
-	//引数: ファイルのパス, フラグ, パーミッション(わからなければ0666でおっけーです)
 	file, err := os.OpenFile("../Document/player_list", os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		//エラー処理
 		log.Fatal(err)
 	}
 	defer file.Close()
-	fmt.Fprintln(file, "a4,てすとまん,4,6,15,15,0,0,120,1") //書き込み
+	name := namewrite()
+	name = "a" + strconv.Itoa(line + 1) + "," + name + ",4,6,15,15,0,0,120,1"
+	fmt.Fprintln(file, name)
 }

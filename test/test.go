@@ -133,9 +133,9 @@ func main() {
 					ansi.CursorBack(1)
 					fmt.Printf(" ")
 					ansi.CursorPreviousLine(1)
-					fmt.Printf("なまえは　%s　でいいですか？",str)
-					fmt.Printf("\nはい\nいいえ")
-					if chose(2) == 0 {
+					fmt.Printf("なまえは　%s　でいいですか？\n",str)
+					fmt.Printf("  はい\n  いいえ")
+					if chose(2, 0) == 0 {
 						ansi.CursorPreviousLine(20)
 						fmt.Println(str,"さん、ようこそ！")
 						fmt.Println("")
@@ -271,7 +271,6 @@ func main() {
 				ansi.CursorForward((x - 1) * 4 + 2)
 				i++
 			}
-
 		}
 	}
 }
@@ -295,13 +294,13 @@ func getkey() int {
 			} else if key == 2 {
 				switch r {
 				case 65:
-					return 128
+					return 128	//うえ
 				case 66:
-					return 129
+					return 129	//した
 				case 67:
-					return 130
+					return 130	//みぎ
 				case 68:
-					return 131
+					return 131	//ひだり
 				}
 				key = 0
 			} else {
@@ -311,10 +310,19 @@ func getkey() int {
 	}
 }
 
-func chose(line int) int{
+func chose(line int, mode int) int{
 	i := 0
-	ansi.CursorUp(line - 1)
-	fmt.Printf(" <")
+	if mode == 1 {
+		ansi.CursorNextLine(1)
+		ansi.CursorUp(line + 2)
+		ansi.CursorForward(2)
+		fmt.Printf(" >")
+		line++
+	} else {
+		ansi.CursorNextLine(1)
+		ansi.CursorUp(line - 2)
+		fmt.Printf(" >")
+	}
 
 	for {
 		x := getkey()
@@ -325,7 +333,7 @@ func chose(line int) int{
 				fmt.Printf(" ")
 				ansi.CursorBack(2)
 				ansi.CursorUp(1)
-				fmt.Printf(" <")
+				fmt.Printf(" >")
 			} else {
 				i++
 			}
@@ -336,7 +344,7 @@ func chose(line int) int{
 				fmt.Printf(" ")
 				ansi.CursorBack(2)
 				ansi.CursorDown(1)
-				fmt.Printf(" <")
+				fmt.Printf(">")
 			} else {
 				i--
 			}

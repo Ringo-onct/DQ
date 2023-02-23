@@ -2,7 +2,6 @@ package main
 
 import (
 	"time"
-	"fmt"
 )
 
 type status struct {	//小文字にしたら、Goのパッケージ内の関数に小文字から始まる関数内から、被らないらしい。
@@ -42,10 +41,12 @@ func main() {
 
 	//player選択
 	pl := prompt(&p_sta[0], -line) - 1
-	fmt.Println(pl)
 	if pl == line {
+		time.Sleep(1 * time.Second)
+		console(&p_sta[0], &m_sta, 0)
 		makedata(line)
 		fileP(&p_sta[line], line + 1)
+		time.Sleep(1 * time.Second)
 	}
 	console(&p_sta[pl], &m_sta, 0)
 
@@ -70,7 +71,7 @@ func main() {
 			//playerの行動選択
 
 			//プレイヤーの行動選択・結果
-			action = prompt(&p_sta[pl], 1)
+			action = prompt(&p_sta[pl], 2)
 
 			time.Sleep(1 * time.Second)
 			console(&p_sta[pl], &m_sta, 0)
@@ -108,7 +109,7 @@ func main() {
 
 		if p_sta[pl].hp <= 0 {
 			break
-		} else if prompt(&p_sta[pl], 0) == 0 {
+		} else if prompt(&p_sta[pl], 1) == 0 {
 			break
 		}
 	}

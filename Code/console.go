@@ -108,20 +108,20 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 func prompt(p_sta *status, mode int) int{	//選択画面
 	var action int
 	switch {
-	case mode == 0:	//継続選択
+	case mode == 1:	//継続選択
 		fmt.Println("")
 		fmt.Println("  やめる　")
 		fmt.Printf("  つづける")
 		action = chose(2, 0)
 		return action
 
-	case mode == 1:	//行動選択
+	case mode == 2:	//行動選択
 		fmt.Println("")
 		fmt.Println("  にげる　")
 		fmt.Printf("  こうげき")
 		action = chose(2, 0)
 		return action
-	case mode < 0:	//player選択
+	case mode <= 0:	//player選択
 		fmt.Println("")
 		action = chose(-mode, 1) + 1
 		return action
