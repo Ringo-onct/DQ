@@ -30,7 +30,7 @@ func fileP(p_sta *status, i int) {
 			p_sta.exp, _ = strconv.Atoi(fields[6])
 			p_sta.gold, _ = strconv.Atoi(fields[7])
 			p_sta.lari, _ = strconv.Atoi(fields[8])
-
+			p_sta.gira, _ = strconv.Atoi(string((fields[0])[1]))	//文字列から数字のみ取り出し、int型に直して格納
 		}
 	}
 

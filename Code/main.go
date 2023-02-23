@@ -108,5 +108,8 @@ func main() {
 	}
 	console(&p_sta[pl], &m_sta, 0)
 	console(&p_sta[pl], &m_sta, 4)
+
+	//ここに保存用処理を書く。
+
 	time.Sleep(2 * time.Second)
 }
