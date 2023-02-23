@@ -52,7 +52,9 @@ func main() {
 		console(&p_sta[pl], &m_sta, 0)
 		time.Sleep(1 * time.Second)
 		fileM(&m_sta)	//monsterデータ読み込み
-		console(&p_sta[pl], &m_sta, 3)
+		if console(&p_sta[pl], &m_sta, 3) == 3 {	//先制攻撃処理
+			actionM(&p_sta[pl], &m_sta)
+		}
 		time.Sleep(2 * time.Second)
 
 		for true {	//戦闘処理

@@ -10,6 +10,8 @@ import (
 )
 
 func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表示
+	//乱数発生
+	rand.Seed(time.Now().UnixNano())
 	switch mode {
 		case 0:	//コンソール画面クリア
 			os_which := runtime.GOOS
@@ -56,8 +58,15 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 				fmt.Println("プレイヤーはたおれた。。")
 				return 2	//敗北
 			}
+
 		case 3:	//エンカウント表示！！
-			fmt.Println(m_sta.name,"があわられた！！")
+			if (m_sta.dif * rand.Intn(64)) > (p_sta.dif * rand.Intn(256)) {
+				fmt.Printf("%sは、%sがみがまえるまえにおそってきた！\n", m_sta.name, p_sta.name)
+				return 3	//monsterの先制攻撃
+			} else {
+				fmt.Println(m_sta.name,"があわられた！！")
+			}
+
 		case 4:	//終了時メッセージ
 			str := "おつかれさまでした。"
 			for _, char1 := range str {
@@ -80,6 +89,7 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 				time.Sleep(130 * time.Millisecond)
 			}
 			fmt.Println("")
+
 		case 5://ゲーム開始待機のコンソール画面
 			fmt.Printf("Press ENTER to start")
 			ansi.CursorHide()
@@ -126,7 +136,7 @@ func actionP(p_sta *status, m_sta *status, action int) {
 
 	switch action {
 		case 0:	//戦闘離脱
-			fmt.Printf("%sはにげだした。。\n",p_sta.name)
+			fmt.Printf("%sはにげだした。。\n", p_sta.name)
 
 		case 1:	//攻撃
 			fmt.Println("プレイヤーのこうげき")
@@ -143,8 +153,11 @@ func actionP(p_sta *status, m_sta *status, action int) {
 				fmt.Println("ミス！")
 				time.Sleep(500 * time.Millisecond)
 				fmt.Println("ダメージを　あたえられない！")
+			} else if rand.Intn(65) < m_sta.avo {
+				fmt.Printf("%sがこうげきをよけた！\n", m_sta.name)
+				p_sta.dmg = 0
 			} else {
-				fmt.Printf("%sは%dのダメージをあたえた！\n", p_sta,name, p_sta.dmg)
+				fmt.Printf("%sは%dのダメージをあたえた！\n", p_sta.name, p_sta.dmg)
 			}
 		default:
 			fmt.Println("こんらんしている")
