@@ -107,6 +107,7 @@ func main() {
 		}
 	}
 	console(&p_sta[pl], &m_sta, 0)
+	//終了メッセージ
 	console(&p_sta[pl], &m_sta, 4)
 
 	//保存用処理

@@ -97,7 +97,7 @@ func save(p_sta *status, line int) {
 		downline	string
 		i 			int
 	)
-	addline := "a" + strconv.Itoa(line) + "," + p_sta.name + "," + strconv.Itoa(p_sta.atk) + "," + strconv.Itoa(p_sta.dif) + "," + strconv.Itoa(p_sta.hp) + "," + strconv.Itoa(p_sta.hp_max) + "," + strconv.Itoa(p_sta.mp) + "," + strconv.Itoa(p_sta.exp) + "," + strconv.Itoa(p_sta.gold) + "," + strconv.Itoa(p_sta.lari)
+	addline := "a" + strconv.Itoa(line) + "," + p_sta.name + "," + strconv.Itoa(p_sta.atk) + "," + strconv.Itoa(p_sta.dif) + "," + strconv.Itoa(p_sta.hp) + "," + strconv.Itoa(p_sta.hp_max) + "," + strconv.Itoa(p_sta.mp) + "," + strconv.Itoa(p_sta.exp) + "," + strconv.Itoa(p_sta.gold) + "," + strconv.Itoa(p_sta.lari) + "\n"
 	if err != nil {
 		panic(err)
 	}
@@ -132,12 +132,7 @@ func save(p_sta *status, line int) {
 	}
 	defer file.Close()
 
-
-	addline += "\n"
-	upline += "\n"
-	if line != 1 {
-		file.WriteString(upline)
-	}
+	file.WriteString(upline)
 	file.WriteString(addline)
 	file.WriteString(downline)
 }
