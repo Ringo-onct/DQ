@@ -24,7 +24,6 @@ func main() {
 	x := 1
 	i := 1	//文字指定
 	for {
-		top:
 		key := getkey()
 
 		if key == 128 {	//Up
@@ -118,165 +117,163 @@ func main() {
 			}
 		} else if key == 13 {	//文字入力・編集処理
 
-			switch 10 * x + y {
-			case 16:
-				str += "あ"
-			case 26:
-				str += "い"
-			case 36:
-				str += "う"
-			case 46:
-				str += "え"
-			case 56:
-				str += "お"
-			case 66:
-				str += "は"
-			case 76:
-				str += "ひ"
-			case 86:
-				str += "ふ"
-			case 96:
-				str += "へ"
-			case 106:
-				str += "ほ"
-			case 15:
-				str += "か"
-			case 25:
-				str += "き"
-			case 35:
-				str += "く"
-			case 45:
-				str += "け"
-			case 55:
-				str += "こ"
-			case 65:
-				str += "ま"
-			case 75:
-				str += "み"
-			case 85:
-				str += "む"
-			case 95:
-				str += "め"
-			case 105:
-				str += "も"
-			case 14:
-				str += "さ"
-			case 24:
-				str += "し"
-			case 34:
-				str += "す"
-			case 44:
-				str += "せ"
-			case 54:
-				str += "そ"
-			case 64:
-				str += "や"
-			case 84:
-				str += "ゆ"
-			case 104:
-				str += "よ"
-			case 13:
-				str += "た"
-			case 23:
-				str += "ち"
-			case 33:
-				str += "つ"
-			case 43:
-				str += "て"
-			case 53:
-				str += "と"
-			case 63:
-				str += "ら"
-			case 73:
-				str += "り"
-			case 83:
-				str += "る"
-			case 93:
-				str += "れ"
-			case 103:
-				str += "ろ"
-			case 12:
-				str += "な"
-			case 22:
-				str += "に"
-			case 32:
-				str += "ぬ"
-			case 42:
-				str += "ね"
-			case 52:
-				str += "の"
-			case 62:
-				str += "わ"
-			case 82:
-				str += "を"
-			case 102:
-				str += "ん"
-			case 11:
-				str += "っ"
-			case 21:
-				str += "ゃ"
-			case 31:
-				str += "ゅ"
-			case 41:
-				str += "ょ"
-			case 51:
-				str += "゛"
-			case 61:
-				str += "゜"
-			case 71:
-				if i <= 1 {
-					goto top
+			if 10 * x + y == 71 {
+				if i > 1 {
+					str = str[:len(str) - 3]
+					i--
+					ansi.CursorNextLine(7 - y)
+					ansi.CursorForward(9 + (i * 2) + i - 1)
+					fmt.Printf("＊")
+					ansi.CursorNextLine(0)
+					ansi.CursorDown(7 - y)
+					ansi.CursorForward((x - 1) * 4 + 2)
 				}
-				str = str[:len(str) - 3]
-				i--
+			} else if 10 * x + y == 91 {
+				if i > 1 {
+					ansi.CursorBack(1)
+					fmt.Printf(" ")
+					ansi.CursorPreviousLine(1)
+					fmt.Printf("なまえは　%s　でいいですか？",str)
+					fmt.Printf("\nはい\nいいえ")
+					if chose(2) == 0 {
+						ansi.CursorPreviousLine(20)
+						fmt.Println(str,"さん、ようこそ！")
+						fmt.Println("")
+						break
+					} else {
+						ansi.EraseInLine(1)
+						ansi.CursorNextLine(1)
+						ansi.EraseInLine(1)
+						ansi.CursorNextLine(1)
+						ansi.EraseInLine(1)
+						ansi.CursorNextLine(1)
+						ansi.EraseInLine(1)
+						ansi.CursorNextLine(1)
+						ansi.EraseInLine(1)
+						ansi.CursorUp(6)
+						fmt.Printf(" >")
+						x = 1
+						y = 6
+					}
+				}
+			} else {
+				switch 10 * x + y {
+				case 16:
+					str += "あ"
+				case 26:
+					str += "い"
+				case 36:
+					str += "う"
+				case 46:
+					str += "え"
+				case 56:
+					str += "お"
+				case 66:
+					str += "は"
+				case 76:
+					str += "ひ"
+				case 86:
+					str += "ふ"
+				case 96:
+					str += "へ"
+				case 106:
+					str += "ほ"
+				case 15:
+					str += "か"
+				case 25:
+					str += "き"
+				case 35:
+					str += "く"
+				case 45:
+					str += "け"
+				case 55:
+					str += "こ"
+				case 65:
+					str += "ま"
+				case 75:
+					str += "み"
+				case 85:
+					str += "む"
+				case 95:
+					str += "め"
+				case 105:
+					str += "も"
+				case 14:
+					str += "さ"
+				case 24:
+					str += "し"
+				case 34:
+					str += "す"
+				case 44:
+					str += "せ"
+				case 54:
+					str += "そ"
+				case 64:
+					str += "や"
+				case 84:
+					str += "ゆ"
+				case 104:
+					str += "よ"
+				case 13:
+					str += "た"
+				case 23:
+					str += "ち"
+				case 33:
+					str += "つ"
+				case 43:
+					str += "て"
+				case 53:
+					str += "と"
+				case 63:
+					str += "ら"
+				case 73:
+					str += "り"
+				case 83:
+					str += "る"
+				case 93:
+					str += "れ"
+				case 103:
+					str += "ろ"
+				case 12:
+					str += "な"
+				case 22:
+					str += "に"
+				case 32:
+					str += "ぬ"
+				case 42:
+					str += "ね"
+				case 52:
+					str += "の"
+				case 62:
+					str += "わ"
+				case 82:
+					str += "を"
+				case 102:
+					str += "ん"
+				case 11:
+					str += "っ"
+				case 21:
+					str += "ゃ"
+				case 31:
+					str += "ゅ"
+				case 41:
+					str += "ょ"
+				case 51:
+					str += "゛"
+				case 61:
+					str += "゜"
+				}
 				ansi.CursorNextLine(7 - y)
 				ansi.CursorForward(9 + (i * 2) + i - 1)
-				fmt.Printf("＊")
+				fmt.Printf("%s", str[3 * i - 3:3 * i])
 				ansi.CursorNextLine(0)
 				ansi.CursorDown(7 - y)
 				ansi.CursorForward((x - 1) * 4 + 2)
-				goto top
-			case 91:
-				if i <= 1 {
-					goto top
-				}
-				ansi.CursorBack(1)
-				fmt.Printf(" ")
-				ansi.CursorPreviousLine(1)
-				fmt.Printf("なまえは　%s　でいいですか？",str)
-				fmt.Printf("\nはい\nいいえ")
-				if chose(2) == 0 {
-					ansi.CursorPreviousLine(20)
-					fmt.Println(str,"さん、ようこそ！")
-					fmt.Println("")
-					goto end
-				} else {
-					ansi.EraseInLine(1)
-					ansi.CursorNextLine(1)
-					ansi.EraseInLine(1)
-					ansi.CursorNextLine(1)
-					ansi.EraseInLine(1)
-					ansi.CursorNextLine(1)
-					ansi.EraseInLine(1)
-					ansi.CursorNextLine(1)
-					ansi.EraseInLine(1)
-					ansi.CursorUp(6)
-					fmt.Printf(" >")
-					x = 1
-					y = 6
-					goto top
-				}
+				i++
 			}
-			ansi.CursorNextLine(7 - y)
-			ansi.CursorForward(9 + (i * 2) + i - 1)
-			fmt.Printf("%s", str[3 * i - 3:3 * i])
-			ansi.CursorNextLine(0)
-			ansi.CursorDown(7 - y)
-			ansi.CursorForward((x - 1) * 4 + 2)
-			i++
+
 		}
 	}
-	end:
 }
 
 func getkey() int {
