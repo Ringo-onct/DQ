@@ -50,12 +50,12 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 
 		case 2:	//戦闘終了判定
 			if m_sta.hp <= 0 {
-				fmt.Println("モンスターをたおした！")
+				fmt.Println(m_sta.name, "をたおした！")
 				return 1	//勝利
 			} else if p_sta.hp <= 0 {
 				time.Sleep(500 * time.Millisecond)
 				fmt.Println("")
-				fmt.Println("プレイヤーはたおれた。。")
+				fmt.Println(p_sta.name, "はたおれた。。")
 				return 2	//敗北
 			}
 
@@ -139,7 +139,7 @@ func actionP(p_sta *status, m_sta *status, action int) {
 			fmt.Printf("%sはにげだした。。\n", p_sta.name)
 
 		case 1:	//攻撃
-			fmt.Println("プレイヤーのこうげき")
+			fmt.Println(p_sta.name, "のこうげき")
 			time.Sleep(500 * time.Millisecond)
 			//ダメージ計算
 			p_sta.dmg = (rand.Intn(256) * (p_sta.atk - m_sta.dif / 2 + 1) / 256 + p_sta.atk - m_sta.dif / 2) / 4
@@ -168,7 +168,7 @@ func actionM(p_sta *status, m_sta *status) {
 	//乱数発生
 	rand.Seed(time.Now().UnixNano())
 
-	fmt.Println("モンスターのこうげき")
+	fmt.Println(m_sta.name, "のこうげき")
 	time.Sleep(500 * time.Millisecond)
 	//ダメージの計算
 	if (m_sta.atk - p_sta.dif / 4 ) >= m_sta.atk / 2 + 1 {
