@@ -25,13 +25,13 @@ func getkey() int {
 			} else if key == 2 {
 				switch r {
 				case 65:
-					return 128
+					return 128	//うえ
 				case 66:
-					return 129
+					return 129	//した
 				case 67:
-					return 130
+					return 130	//みぎ
 				case 68:
-					return 131
+					return 131	//ひだり
 				}
 				key = 0
 			} else {
@@ -73,7 +73,7 @@ func chose(line int, mode int) int{
 			if i <= (line - 1) {
 				ansi.CursorBack(1)
 				fmt.Printf(" ")
-				ansi.CursorBack(1)
+				ansi.CursorBack(2)
 				ansi.CursorDown(1)
 				fmt.Printf(">")
 			} else {
