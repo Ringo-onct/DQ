@@ -41,10 +41,19 @@ func getkey() int {
 	}
 }
 
-func chose(line int) int{
+func chose(line int, mode int) int{
 	i := 0
-	ansi.CursorUp(line - 1)
-	fmt.Printf(" <")
+	if mode == 1 {
+		ansi.CursorNextLine(1)
+		ansi.CursorUp(line + 2)
+		ansi.CursorForward(2)
+		fmt.Printf(" >")
+		line++
+	} else {
+		ansi.CursorNextLine(1)
+		ansi.CursorUp(line - 2)
+		fmt.Printf(" >")
+	}
 
 	for {
 		x := getkey()
@@ -55,7 +64,7 @@ func chose(line int) int{
 				fmt.Printf(" ")
 				ansi.CursorBack(2)
 				ansi.CursorUp(1)
-				fmt.Printf(" <")
+				fmt.Printf(" >")
 			} else {
 				i++
 			}
@@ -66,7 +75,7 @@ func chose(line int) int{
 				fmt.Printf(" ")
 				ansi.CursorBack(1)
 				ansi.CursorDown(1)
-				fmt.Printf("<")
+				fmt.Printf(">")
 			} else {
 				i--
 			}

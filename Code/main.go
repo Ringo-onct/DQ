@@ -2,6 +2,7 @@ package main
 
 import (
 	"time"
+	"fmt"
 )
 
 type status struct {	//小文字にしたら、Goのパッケージ内の関数に小文字から始まる関数内から、被らないらしい。
@@ -21,7 +22,7 @@ type status struct {	//小文字にしたら、Goのパッケージ内の関数�
 
 func main() {
 	line := linecountP()
-	p_sta := make([]status, line)
+	p_sta := make([]status, line + 1)
 	//一応、今作ってるのはplayerのデータ読み込みだから、monsterはまだ配列対応させない。
 	var (
 		m_sta status
@@ -40,7 +41,12 @@ func main() {
 	player_UI(&p_sta, line)
 
 	//player選択
-	pl := prompt(&p_sta[0], 2) - 1
+	pl := prompt(&p_sta[0], -line) - 1
+	fmt.Println(pl)
+	if pl == line {
+		makedata(line)
+		fileP(&p_sta[line], line + 1)
+	}
 	console(&p_sta[pl], &m_sta, 0)
 
 

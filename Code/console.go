@@ -107,24 +107,23 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 
 func prompt(p_sta *status, mode int) int{	//選択画面
 	var action int
-	switch mode {
-	case 0:	//継続選択
+	switch {
+	case mode == 0:	//継続選択
 		fmt.Println("")
-		fmt.Println("やめる　")
-		fmt.Printf("つづける")
-		action = chose(2)
+		fmt.Println("  やめる　")
+		fmt.Printf("  つづける")
+		action = chose(2, 0)
 		return action
 
-	case 1:	//行動選択
+	case mode == 1:	//行動選択
 		fmt.Println("")
-		fmt.Println("にげる　")
-		fmt.Printf("こうげき")
-		action = chose(2)
+		fmt.Println("  にげる　")
+		fmt.Printf("  こうげき")
+		action = chose(2, 0)
 		return action
-	case 2:	//player選択
+	case mode < 0:	//player選択
 		fmt.Println("")
-		fmt.Printf("playerの選択>")
-		fmt.Scan(&action)
+		action = chose(-mode, 1) + 1
 		return action
 	}
 	return 0
@@ -203,8 +202,8 @@ func player_UI(p_sta *[]status, line int) {
 			s += "　"
 			x--
 		}
-		fmt.Printf("| %d.%s%s|HP:%-3d|ATK:%-3d|\n", i + 1, (*p_sta)[i].name, s, (*p_sta)[i].hp, (*p_sta)[i].atk)
+		fmt.Printf("|    %s%s|HP:%-3d|Lv:%-3d|\n", (*p_sta)[i].name, s, (*p_sta)[i].hp, (*p_sta)[i].lari)
 	}
-	fmt.Println("|　ぼうけんのしょをつくる　　　|")
+	fmt.Println("|    ぼうけんのしょをつくる　　|")
 	fmt.Println("--------------------------------")
 }
