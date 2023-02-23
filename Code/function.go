@@ -46,10 +46,10 @@ func chose(line int, mode int) int{
 	i := 0
 	if mode == 1 {
 		ansi.CursorNextLine(1)
-		ansi.CursorUp(line + 2)
+		ansi.CursorUp(line + 3)
 		ansi.CursorForward(2)
 		fmt.Printf(" >")
-		line++
+		line += 2
 	} else {
 		ansi.CursorNextLine(1)
 		ansi.CursorUp(line - 2)

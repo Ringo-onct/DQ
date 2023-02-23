@@ -99,8 +99,6 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 					break
 				}
 			}
-
-
 	}
 	return 0
 }
@@ -205,5 +203,6 @@ func player_UI(p_sta *[]status, line int) {
 		fmt.Printf("|    %s%s|HP:%-3d|Lv:%-3d|\n", (*p_sta)[i].name, s, (*p_sta)[i].hp, (*p_sta)[i].lari)
 	}
 	fmt.Println("|    ぼうけんのしょをつくる　　|")
+	fmt.Println("|    ぼうけんのしょをけす　　　|")
 	fmt.Println("--------------------------------")
 }

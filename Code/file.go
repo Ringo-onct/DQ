@@ -150,3 +150,46 @@ func makedata(line int) {
 	name = "a" + strconv.Itoa(line + 1) + "," + name + ",4,6,15,15,0,0,120,1"
 	fmt.Fprintln(file, name)
 }
+
+func delldata(p_sta *[]status, line int) {
+
+	fmt.Println("どのデータを消しますか？")
+	var (
+		x, i	int
+		s		string
+	)
+	fmt.Println("--------------------------------")
+
+	for i = 0; i < line; i++ {
+		s = ""
+		x = 6 - (len((*p_sta)[i].name) / 3)
+		for x > 0 {
+			s += "　"
+			x--
+		}
+		fmt.Printf("|    %s%s|HP:%-3d|Lv:%-3d|\n", (*p_sta)[i].name, s, (*p_sta)[i].hp, (*p_sta)[i].lari)
+	}
+	fmt.Println("--------------------------------")
+
+	fmt.Println("")
+	pl := chose(line - 2, 1)
+
+	file, err := os.OpenFile("../Document/player_list", os.O_TRUNC|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	for i = 0; i < line - 1; i++ {
+
+		if i < pl {
+			s = "a" + strconv.Itoa(i + 1) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari)
+		} else if i == pl {
+			i++
+			s = "a" + strconv.Itoa(i) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari)
+		} else {
+			s = "a" + strconv.Itoa(i) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari)
+		}
+		fmt.Fprintln(file, s)
+	}
+}

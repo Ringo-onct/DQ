@@ -2,6 +2,7 @@ package main
 
 import (
 	"time"
+	"os"
 )
 
 type status struct {	//小文字にしたら、Goのパッケージ内の関数に小文字から始まる関数内から、被らないらしい。
@@ -20,6 +21,7 @@ type status struct {	//小文字にしたら、Goのパッケージ内の関数�
 }
 
 func main() {
+	top:
 	line := linecountP()
 	p_sta := make([]status, line + 1)
 	//一応、今作ってるのはplayerのデータ読み込みだから、monsterはまだ配列対応させない。
@@ -47,12 +49,21 @@ func main() {
 		makedata(line)
 		fileP(&p_sta[line], line + 1)
 		time.Sleep(1 * time.Second)
+	} else if pl == line + 1 {
+		time.Sleep(1 * time.Second)
+		console(&p_sta[0], &m_sta, 0)
+		delldata(&p_sta, line)
+		if prompt(&p_sta[0], 1) == 0 {
+			os.Exit(1)
+		} else {
+			goto top
+		}
 	}
+
 	console(&p_sta[pl], &m_sta, 0)
 
 
 	fileP(&p_sta[pl], pl + 1)	//playerデータ読み込みここに置くと再読み込みさせないで体力保持できる
-	//↑これも後で消す
 	time.Sleep(1 * time.Second)
 
 	for true {	//戦闘継続ループ
@@ -61,6 +72,7 @@ func main() {
 		fileM(&m_sta)	//monsterデータ読み込み
 		if console(&p_sta[pl], &m_sta, 3) == 3 {	//先制攻撃処理
 			actionM(&p_sta[pl], &m_sta)
+			p_sta[pl].hp -= m_sta.dmg
 		}
 		time.Sleep(2 * time.Second)
 
@@ -114,10 +126,10 @@ func main() {
 		}
 	}
 	console(&p_sta[pl], &m_sta, 0)
+	//保存用処理
+	save(&p_sta[pl], pl + 1)
 	//終了メッセージ
 	console(&p_sta[pl], &m_sta, 4)
 
-	//保存用処理
-	save(&p_sta[pl], pl + 1)
 	time.Sleep(2 * time.Second)
 }
