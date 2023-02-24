@@ -51,6 +51,8 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 		case 2:	//戦闘終了判定
 			if m_sta.hp <= 0 {
 				fmt.Println(m_sta.name, "をたおした！")
+				time.Sleep(500 * time.Millisecond)
+				fmt.Printf("%d Goldと%d Expを手に入れた！\n", m_sta.gold, m_sta.exp)
 				return 1	//勝利
 			} else if p_sta.hp <= 0 {
 				time.Sleep(500 * time.Millisecond)
@@ -99,6 +101,8 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 					break
 				}
 			}
+		case 6:	//レベルアップ
+			fmt.Printf("%sは、Lv%dにレベルアップした！\n", p_sta.name, p_sta.lari)
 	}
 	return 0
 }
