@@ -105,6 +105,9 @@ func main() {
 			if console(&p_sta[pl], &m_sta, 2) == 1 {	//勝ち
 				p_sta[pl].exp += m_sta.exp
 				p_sta[pl].gold += m_sta.gold
+				if p_sta[pl].exp > 65535 {
+					p_sta[pl].exp = 65535
+				}
 				//レベルアップ確認
 				time.Sleep(500 * time.Millisecond)
 				for {

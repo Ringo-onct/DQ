@@ -52,7 +52,11 @@ func console(p_sta *status, m_sta *status, mode int) int {	//何かしらの表�
 			if m_sta.hp <= 0 {
 				fmt.Println(m_sta.name, "をたおした！")
 				time.Sleep(500 * time.Millisecond)
-				fmt.Printf("%d Goldと%d Expを手に入れた！\n", m_sta.gold, m_sta.exp)
+				if p_sta.lari == 30 {
+					fmt.Printf("%d Goldを手に入れた！", m_sta.gold)
+				} else {
+					fmt.Printf("%d Goldと%d Expを手に入れた！\n", m_sta.gold, m_sta.exp)
+				}
 				return 1	//勝利
 			} else if p_sta.hp <= 0 {
 				time.Sleep(500 * time.Millisecond)
