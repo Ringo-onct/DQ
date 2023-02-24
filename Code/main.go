@@ -16,8 +16,8 @@ type status struct {	//小文字にしたら、Goのパッケージ内の関数�
 	exp		int		//pは総Exp,mは獲得exp
 	gold	int		//pは総gold,mは獲得gold
 	lari	int		//pはレベル,mはラリの回避率
-	gira	int		//pはなし,mはギラの回避率
-	avo		int		//pはなし。mは回避率
+	gira	int		//pは最大mp,mはギラの回避率
+	avo		int		//pは成長タイプ。mは回避率
 }
 
 func main() {
@@ -43,19 +43,22 @@ func main() {
 
 	//player選択
 	pl := prompt(&p_sta[0], -line) - 1
-	if pl == line {
+	if pl == line {				//新規作成
 		time.Sleep(1 * time.Second)
 		console(&p_sta[0], &m_sta, 0)
 		makedata(line)
 		fileP(&p_sta[line], line + 1)
+		lvup(&p_sta[line])
+		save(&p_sta[line], pl + 1)
 		time.Sleep(1 * time.Second)
-	} else if pl == line + 1 {
+	} else if pl == line + 1 {	//データ削除
 		time.Sleep(1 * time.Second)
 		console(&p_sta[0], &m_sta, 0)
 		delldata(&p_sta, line)
 		if prompt(&p_sta[0], 1) == 0 {
 			os.Exit(1)
 		} else {
+			console(&p_sta[0], &m_sta, 0)
 			goto top
 		}
 	}
@@ -100,6 +103,25 @@ func main() {
 
 			//勝敗判定
 			if console(&p_sta[pl], &m_sta, 2) == 1 {	//勝ち
+				p_sta[pl].exp += m_sta.exp
+				p_sta[pl].gold += m_sta.gold
+				if p_sta[pl].exp > 65535 {
+					p_sta[pl].exp = 65535
+				}
+				//レベルアップ確認
+				time.Sleep(500 * time.Millisecond)
+				for {
+					n := p_sta[pl].lari + 1
+					if (3 * (n - 2) * (n - 2) * (n - 2) + 7) <= p_sta[pl].exp {	//レベルアップ処理
+						p_sta[pl].lari++
+						lvup(&p_sta[pl])
+						console(&p_sta[pl], &m_sta, 6)
+					} else {
+						break
+					}
+				}
+
+
 				break
 			}
 
@@ -111,7 +133,7 @@ func main() {
 			p_sta[pl].hp -= m_sta.dmg
 
 			//勝敗判定
-			if console(&p_sta[pl], &m_sta, 2) == 2 {
+			if console(&p_sta[pl], &m_sta, 2) == 2 {	//負け
 				time.Sleep(1 * time.Second)
 				break
 			}

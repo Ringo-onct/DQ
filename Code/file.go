@@ -33,12 +33,15 @@ func fileP(p_sta *status, i int) {
 			p_sta.exp, _ = strconv.Atoi(fields[7])
 			p_sta.gold, _ = strconv.Atoi(fields[8])
 			p_sta.lari, _ = strconv.Atoi(fields[9])
+			p_sta.gira, _ = strconv.Atoi(fields[10])
+			p_sta.avo, _ = strconv.Atoi(fields[11])
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
 		panic(err)
 	}
+
 }
 
 func fileM(m_sta *status) {
@@ -49,7 +52,7 @@ func fileM(m_sta *status) {
 	}
 	defer filepass.Close()
 	rand.Seed(time.Now().UnixNano())
-	seed := "a" + strconv.Itoa(rand.Intn(2))
+	seed := "a" + strconv.Itoa(rand.Intn(2) + 1)
 	scanner := bufio.NewScanner(filepass)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -99,7 +102,7 @@ func save(p_sta *status, line int) {
 		downline	string
 		i 			int
 	)
-	addline := "a" + strconv.Itoa(line) + "," + p_sta.name + "," + strconv.Itoa(p_sta.atk) + "," + strconv.Itoa(p_sta.dif) + "," + strconv.Itoa(p_sta.hp) + "," + strconv.Itoa(p_sta.hp_max) + "," + strconv.Itoa(p_sta.mp) + "," + strconv.Itoa(p_sta.exp) + "," + strconv.Itoa(p_sta.gold) + "," + strconv.Itoa(p_sta.lari) + "\n"
+	addline := "a" + strconv.Itoa(line) + "," + p_sta.name + "," + strconv.Itoa(p_sta.atk) + "," + strconv.Itoa(p_sta.dif) + "," + strconv.Itoa(p_sta.hp) + "," + strconv.Itoa(p_sta.hp_max) + "," + strconv.Itoa(p_sta.mp) + "," + strconv.Itoa(p_sta.exp) + "," + strconv.Itoa(p_sta.gold) + "," + strconv.Itoa(p_sta.lari) + "," + strconv.Itoa(p_sta.gira) + "," + strconv.Itoa(p_sta.avo) + "\n"
 	if err != nil {
 		panic(err)
 	}
@@ -140,14 +143,15 @@ func save(p_sta *status, line int) {
 }
 
 func makedata(line int) {
+	rand.Seed(time.Now().UnixNano())
 	file, err := os.OpenFile("../Document/player_list", os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		//エラー処理
 		log.Fatal(err)
 	}
 	defer file.Close()
-	name := namewrite()
-	name = "a" + strconv.Itoa(line + 1) + "," + name + ",4,6,15,15,0,0,120,1"
+	name := string(namewrite())
+	name = "a" + strconv.Itoa(line + 1) + "," + name + ",4,4,15,15,0,0,120,1,0," + strconv.Itoa(rand.Intn(16))
 	fmt.Fprintln(file, name)
 }
 
@@ -183,13 +187,87 @@ func delldata(p_sta *[]status, line int) {
 	for i = 0; i < line - 1; i++ {
 
 		if i < pl {
-			s = "a" + strconv.Itoa(i + 1) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari)
+			s = "a" + strconv.Itoa(i + 1) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari) + "," + strconv.Itoa((*p_sta)[i].gira) + "," + strconv.Itoa((*p_sta)[i].lari)
 		} else if i == pl {
 			i++
-			s = "a" + strconv.Itoa(i) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari)
+			s = "a" + strconv.Itoa(i) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari) + "," + strconv.Itoa((*p_sta)[i].gira) + "," + strconv.Itoa((*p_sta)[i].lari)
 		} else {
-			s = "a" + strconv.Itoa(i) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari)
+			s = "a" + strconv.Itoa(i) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari) + "," + strconv.Itoa((*p_sta)[i].gira) + "," + strconv.Itoa((*p_sta)[i].lari)
 		}
 		fmt.Fprintln(file, s)
+	}
+}
+
+func lvup(p_sta *status) {
+	if p_sta.lari == 1 {	//タイプ別レベルアップ処理
+		if p_sta.avo % 2 == 0 {
+			p_sta.atk = int(float32(p_sta.atk) * 0.9) + p_sta.avo / 4
+			if p_sta.avo % 4 == 0 {
+				p_sta.dif = int(float32(p_sta.dif) * 0.9) + p_sta.avo / 4
+			} else {
+				p_sta.hp_max = int(float32(p_sta.hp_max) * 0.9) + p_sta.avo / 4
+			}
+		} else {
+			p_sta.gira = int(float32(p_sta.gira) * 0.9)
+			if p_sta.lari > 2 {
+				p_sta.gira += p_sta.avo / 4
+			}
+
+			if p_sta.avo % 4 == 1 {
+				p_sta.dif = int(float32(p_sta.dif) * 0.9) + p_sta.avo / 4
+			} else {
+				p_sta.hp_max = int(float32(p_sta.hp_max) * 0.9) + p_sta.avo / 4
+			}
+		}
+		p_sta.hp = p_sta.hp_max
+		p_sta.mp = p_sta.gira
+	} else {
+		var seed string
+		filepass, err := os.Open("../Document/lvup_status")	//fopen的な何か
+		if err != nil {
+			panic(err)
+		}
+		defer filepass.Close()
+
+		scanner := bufio.NewScanner(filepass)
+		for scanner.Scan() {
+			line := scanner.Text()
+			seed = "a" + strconv.Itoa(p_sta.lari)
+			if strings.Contains(line, seed) {
+				fields := strings.Split(line, ",")
+				p_sta.atk, _ = strconv.Atoi(fields[1])
+				p_sta.dif, _ = strconv.Atoi(fields[2])
+				p_sta.hp_max, _ = strconv.Atoi(fields[3])
+				p_sta.gira, _ = strconv.Atoi(fields[4])
+			}
+		}
+
+		if err := scanner.Err(); err != nil {
+			panic(err)
+		}
+
+		//タイプ別レベルアップ処理
+		if p_sta.avo % 2 == 0 {
+			p_sta.atk = int(float32(p_sta.atk) * 0.9) + p_sta.atk / 4
+			if p_sta.avo % 4 == 0 {
+				p_sta.dif = int(float32(p_sta.dif) * 0.9) + p_sta.dif / 4
+			} else {
+				p_sta.hp_max = int(float32(p_sta.hp_max) * 0.9) + p_sta.hp_max / 4
+			}
+		} else {
+			p_sta.gira = int(float32(p_sta.gira) * 0.9)
+			if p_sta.lari > 2 {
+				p_sta.gira += p_sta.gira / 4
+			}
+
+			if p_sta.avo % 4 == 1 {
+				p_sta.dif = int(float32(p_sta.dif) * 0.9) + p_sta.dif / 4
+			} else {
+				p_sta.hp_max = int(float32(p_sta.hp_max) * 0.9) + p_sta.hp_max / 4
+
+			}
+		}
+		p_sta.hp = p_sta.hp_max
+		p_sta.mp = p_sta.gira
 	}
 }
