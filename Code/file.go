@@ -71,6 +71,7 @@ func fileM(m_sta *status) {
 			m_sta.lari, _ = strconv.Atoi(fields[8])
 			m_sta.gira, _ = strconv.Atoi(fields[9])
 			m_sta.avo, _ = strconv.Atoi(fields[10])
+			m_sta.number, _ = strconv.Atoi(string((fields[0])[1]))
 		}
 	}
 
