@@ -8,8 +8,10 @@ import (
 	"time"
 	"fmt"
 	"log"
+	"github.com/k0kubun/go-ansi"
 )
 
+//プレイヤーのデータを読み込む
 func fileP(p_sta *status, i int) {
 	var seed string
 	filepass, err := os.Open("../Document/player_list")	//fopen的な何か
@@ -44,6 +46,7 @@ func fileP(p_sta *status, i int) {
 
 }
 
+//モンスターのデータを読み込む
 func fileM(m_sta *status) {
 
 	filepass, err := os.Open("../Document/monster_list")	//fopen的な何か
@@ -95,6 +98,7 @@ func linecountP() int {
 	return lineCount
 }
 
+//データをセーブする
 func save(p_sta *status, line int) {
 	file, err := os.Open("../Document/player_list")
 	var (
@@ -142,6 +146,7 @@ func save(p_sta *status, line int) {
 	file.WriteString(downline)
 }
 
+//データを作成する
 func makedata(line int) {
 	rand.Seed(time.Now().UnixNano())
 	file, err := os.OpenFile("../Document/player_list", os.O_WRONLY|os.O_APPEND, 0666)
@@ -155,7 +160,8 @@ func makedata(line int) {
 	fmt.Fprintln(file, name)
 }
 
-func delldata(p_sta *[]status, line int) {
+//データを削除する
+func delldata(p_sta *[]status, line int) int{
 
 	fmt.Println("どのデータを消しますか？")
 	var (
@@ -176,8 +182,20 @@ func delldata(p_sta *[]status, line int) {
 	fmt.Println("--------------------------------")
 
 	fmt.Println("")
-	pl := chose(line - 2, 1)
+	ansi.CursorNextLine(1)
+	ansi.CursorUp(line + 1)
+	ansi.CursorForward(2)
+	pl := chose(line) - 1	//配列に使うため-1している。
 
+	fmt.Println("本当に消してもいいですか？消したデータは二度と元に戻りません。")
+	fmt.Println("")
+	fmt.Println("---------------")
+	fmt.Println("|  けす　　　　|")
+	fmt.Println("|  思いとどまる|")
+	fmt.Println("---------------")
+	if chose(2) == 2 {
+		return 1
+	}
 	file, err := os.OpenFile("../Document/player_list", os.O_TRUNC|os.O_WRONLY, 0644)
 	if err != nil {
 		panic(err)
@@ -196,78 +214,55 @@ func delldata(p_sta *[]status, line int) {
 		}
 		fmt.Fprintln(file, s)
 	}
+	return 0
 }
 
+//レベルアップ処理をする
 func lvup(p_sta *status) {
-	if p_sta.lari == 1 {	//タイプ別レベルアップ処理
-		if p_sta.avo % 2 == 0 {
-			p_sta.atk = int(float32(p_sta.atk) * 0.9) + p_sta.avo / 4
-			if p_sta.avo % 4 == 0 {
-				p_sta.dif = int(float32(p_sta.dif) * 0.9) + p_sta.avo / 4
-			} else {
-				p_sta.hp_max = int(float32(p_sta.hp_max) * 0.9) + p_sta.avo / 4
-			}
-		} else {
-			p_sta.gira = int(float32(p_sta.gira) * 0.9)
-			if p_sta.lari > 2 {
-				p_sta.gira += p_sta.avo / 4
-			}
-
-			if p_sta.avo % 4 == 1 {
-				p_sta.dif = int(float32(p_sta.dif) * 0.9) + p_sta.avo / 4
-			} else {
-				p_sta.hp_max = int(float32(p_sta.hp_max) * 0.9) + p_sta.avo / 4
-			}
-		}
-		p_sta.hp = p_sta.hp_max
-		p_sta.mp = p_sta.gira
-	} else {
-		var seed string
-		filepass, err := os.Open("../Document/lvup_status")	//fopen的な何か
-		if err != nil {
-			panic(err)
-		}
-		defer filepass.Close()
-
-		scanner := bufio.NewScanner(filepass)
-		for scanner.Scan() {
-			line := scanner.Text()
-			seed = "a" + strconv.Itoa(p_sta.lari)
-			if strings.Contains(line, seed) {
-				fields := strings.Split(line, ",")
-				p_sta.atk, _ = strconv.Atoi(fields[1])
-				p_sta.dif, _ = strconv.Atoi(fields[2])
-				p_sta.hp_max, _ = strconv.Atoi(fields[3])
-				p_sta.gira, _ = strconv.Atoi(fields[4])
-			}
-		}
-
-		if err := scanner.Err(); err != nil {
-			panic(err)
-		}
-
-		//タイプ別レベルアップ処理
-		if p_sta.avo % 2 == 0 {
-			p_sta.atk = int(float32(p_sta.atk) * 0.9) + p_sta.atk / 4
-			if p_sta.avo % 4 == 0 {
-				p_sta.dif = int(float32(p_sta.dif) * 0.9) + p_sta.dif / 4
-			} else {
-				p_sta.hp_max = int(float32(p_sta.hp_max) * 0.9) + p_sta.hp_max / 4
-			}
-		} else {
-			p_sta.gira = int(float32(p_sta.gira) * 0.9)
-			if p_sta.lari > 2 {
-				p_sta.gira += p_sta.gira / 4
-			}
-
-			if p_sta.avo % 4 == 1 {
-				p_sta.dif = int(float32(p_sta.dif) * 0.9) + p_sta.dif / 4
-			} else {
-				p_sta.hp_max = int(float32(p_sta.hp_max) * 0.9) + p_sta.hp_max / 4
-
-			}
-		}
-		p_sta.hp = p_sta.hp_max
-		p_sta.mp = p_sta.gira
+	var seed string
+	filepass, err := os.Open("../Document/lvup_status")	//fopen的な何か
+	if err != nil {
+		panic(err)
 	}
+	defer filepass.Close()
+
+	scanner := bufio.NewScanner(filepass)
+	for scanner.Scan() {
+		line := scanner.Text()
+		seed = "a" + strconv.Itoa(p_sta.lari)
+		if strings.Contains(line, seed) {
+			fields := strings.Split(line, ",")
+			p_sta.atk, _ = strconv.Atoi(fields[1])
+			p_sta.dif, _ = strconv.Atoi(fields[2])
+			p_sta.hp_max, _ = strconv.Atoi(fields[3])
+			p_sta.gira, _ = strconv.Atoi(fields[4])
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+
+	//タイプ別レベルアップ処理
+	if p_sta.avo % 2 == 0 {
+		p_sta.atk = int(float32(p_sta.atk) * 0.9) + p_sta.avo / 4
+		if p_sta.avo % 4 == 0 {
+			p_sta.dif = int(float32(p_sta.dif) * 0.9) + p_sta.avo / 4
+		} else {
+			p_sta.hp_max = int(float32(p_sta.hp_max) * 0.9) + p_sta.avo / 4
+		}
+	} else {
+		p_sta.gira = int(float32(p_sta.gira) * 0.9)
+		if p_sta.lari > 2 {
+			p_sta.gira += p_sta.avo / 4
+		}
+
+		if p_sta.avo % 4 == 1 {
+			p_sta.dif = int(float32(p_sta.dif) * 0.9) + p_sta.avo / 4
+		} else {
+			p_sta.hp_max = int(float32(p_sta.hp_max) * 0.9) + p_sta.avo / 4
+		}
+	}
+	p_sta.hp = p_sta.hp_max
+	p_sta.mp = p_sta.gira
 }

@@ -3,6 +3,8 @@ package main
 import (
 	"time"
 	"os"
+	"fmt"
+	"github.com/k0kubun/go-ansi"
 )
 
 type status struct {	//小文字にしたら、Goのパッケージ内の関数に小文字から始まる関数内から、被らないらしい。
@@ -24,28 +26,44 @@ func main() {
 	top:
 	line := linecountP()
 	p_sta := make([]status, line + 1)
-	//一応、今作ってるのはplayerのデータ読み込みだから、monsterはまだ配列対応させない。
-	var (
-		m_sta status
-		action int
-	)
+	var m_sta status
+
 	//ゲーム開始待機時のコンソール画面表示
-	console(&p_sta[0], &m_sta, 5)
-	console(&p_sta[0], &m_sta, 0)
+	fmt.Printf("Press ENTER to start")
+	ansi.CursorHide()
+	for {	//エンター待機
+		x := getkey()
+		if x == 13 {
+			break
+		}
+	}
 
-
+	cls()
 	for i := 0; i < line; i++ {	//ファイルにある分のplayerデータ読み込み
 		fileP(&p_sta[i], i + 1)
 	}
 
 	//playerデータ表示
-	player_UI(&p_sta, line)
+	fmt.Println("--------------------------------")
+	for i := 0; i < line; i++ {
+		s := ""
+		x := 6 - (len(p_sta[i].name) / 3)
+		for x > 0 {
+			s += "　"
+			x--
+		}
+		fmt.Printf("|    %s%s|HP:%-3d|Lv:%-3d|\n", p_sta[i].name, s, p_sta[i].hp, p_sta[i].lari)
+	}
+	fmt.Println("|    ぼうけんのしょをつくる　　|")
+	fmt.Println("|    ぼうけんのしょをけす　　　|")
+	fmt.Println("--------------------------------")
 
 	//player選択
-	pl := prompt(&p_sta[0], -line) - 1
+	pl := chose(line + 2) - 1	//配列に使うため-1している。
+
 	if pl == line {				//新規作成
 		time.Sleep(1 * time.Second)
-		console(&p_sta[0], &m_sta, 0)
+		cls()
 		makedata(line)
 		fileP(&p_sta[line], line + 1)
 		lvup(&p_sta[line])
@@ -53,105 +71,57 @@ func main() {
 		time.Sleep(1 * time.Second)
 	} else if pl == line + 1 {	//データ削除
 		time.Sleep(1 * time.Second)
-		console(&p_sta[0], &m_sta, 0)
+		cls()
 		delldata(&p_sta, line)
-		if prompt(&p_sta[0], 1) == 0 {
+		fmt.Println("")
+		fmt.Println("-----------")
+		fmt.Println("|  やめる　|")
+		fmt.Println("|  つづける|")
+		fmt.Println("-----------")
+		if chose(2) == 1 {
 			os.Exit(1)
 		} else {
-			console(&p_sta[0], &m_sta, 0)
+			cls()
 			goto top
 		}
 	}
 
-	console(&p_sta[pl], &m_sta, 0)
-
+	cls()
 
 	fileP(&p_sta[pl], pl + 1)	//playerデータ読み込みここに置くと再読み込みさせないで体力保持できる
 	time.Sleep(1 * time.Second)
 
 	for true {	//戦闘継続ループ
-		console(&p_sta[pl], &m_sta, 0)
-		time.Sleep(1 * time.Second)
-		fileM(&m_sta)	//monsterデータ読み込み
-		if console(&p_sta[pl], &m_sta, 3) == 3 {	//先制攻撃処理
-			actionM(&p_sta[pl], &m_sta)
-			p_sta[pl].hp -= m_sta.dmg
-		}
-		time.Sleep(2 * time.Second)
-
-		for true {	//戦闘処理
-			console(&p_sta[pl], &m_sta, 0)	//コンソール画面クリア
-			console(&p_sta[pl], &m_sta, 1)	//体力表示
-
-			//playerの行動選択
-
-			//プレイヤーの行動選択・結果
-			action = prompt(&p_sta[pl], 2)
-
-			time.Sleep(1 * time.Second)
-			console(&p_sta[pl], &m_sta, 0)
-
-			if action == 0 {		//戦闘離脱
-				actionP(&p_sta[pl], &m_sta, 0)
-				time.Sleep(1 * time.Second)
-				console(&p_sta[pl], &m_sta, 0)
-				break
-			} else if action == 1 {	//戦闘後のダメージ処理
-				actionP(&p_sta[pl], &m_sta, 1)
-				m_sta.hp -= p_sta[pl].dmg
-			}
-
-			//勝敗判定
-			if console(&p_sta[pl], &m_sta, 2) == 1 {	//勝ち
-				p_sta[pl].exp += m_sta.exp
-				p_sta[pl].gold += m_sta.gold
-				if p_sta[pl].exp > 65535 {
-					p_sta[pl].exp = 65535
-				}
-				//レベルアップ確認
-				time.Sleep(500 * time.Millisecond)
-				for {
-					n := p_sta[pl].lari + 1
-					if (3 * (n - 2) * (n - 2) * (n - 2) + 7) <= p_sta[pl].exp {	//レベルアップ処理
-						p_sta[pl].lari++
-						lvup(&p_sta[pl])
-						console(&p_sta[pl], &m_sta, 6)
-					} else {
-						break
-					}
-				}
-
-
-				break
-			}
-
-			time.Sleep(1 * time.Second)
-			//モンスターの行動
-			actionM(&p_sta[pl], &m_sta)
-
-			//モンスターの行動の結果
-			p_sta[pl].hp -= m_sta.dmg
-
-			//勝敗判定
-			if console(&p_sta[pl], &m_sta, 2) == 2 {	//負け
-				time.Sleep(1 * time.Second)
-				break
-			}
-
-			time.Sleep(3 * time.Second)
-		}
-
-		if p_sta[pl].hp <= 0 {
-			break
-		} else if prompt(&p_sta[pl], 1) == 0 {
+		if battle(&p_sta[pl], &m_sta) == 1 {	//戦闘終了処理
 			break
 		}
 	}
-	console(&p_sta[pl], &m_sta, 0)
+
+	cls()
 	//保存用処理
 	save(&p_sta[pl], pl + 1)
 	//終了メッセージ
-	console(&p_sta[pl], &m_sta, 4)
+	str := "おつかれさまでした。"
+	for _, char1 := range str {
+		fmt.Printf("%c", char1)
+		time.Sleep(130 * time.Millisecond)
+	}
+
+	fmt.Println("")
+	time.Sleep(500 * time.Millisecond)
+	str = "りせっとぼたんを　おしながら"
+	for _, char2 := range str {
+		fmt.Printf("%c", char2)
+		time.Sleep(130 * time.Millisecond)
+	}
+	fmt.Println("")
+	time.Sleep(500 * time.Millisecond)
+	str = "でんげんを　きってください"
+	for _, char3 := range str {
+		fmt.Printf("%c", char3)
+		time.Sleep(130 * time.Millisecond)
+	}
+	fmt.Println("")
 
 	time.Sleep(2 * time.Second)
 }
