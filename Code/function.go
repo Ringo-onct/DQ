@@ -1,12 +1,18 @@
+//繰り返し呼び出す形の処理をここに書く。
+
 package main
 import (
 	"log"
 	"fmt"
+	"runtime"
+	"os/exec"
+	"os"
 
 	"github.com/mattn/go-tty"
 	"github.com/k0kubun/go-ansi"
 )
 
+//キー入力を認識する関数
 func getkey() int {
 	key := 0
 	tty, err := tty.Open()
@@ -42,25 +48,19 @@ func getkey() int {
 	}
 }
 
-func chose(line int, mode int) int{
-	i := 0
-	if mode == 1 {
-		ansi.CursorNextLine(1)
-		ansi.CursorUp(line + 3)
-		ansi.CursorForward(2)
-		fmt.Printf(" >")
-		line += 2
-	} else {
-		ansi.CursorNextLine(1)
-		ansi.CursorUp(line - 2)
-		fmt.Printf(" >")
-	}
+//選択させる関数。引数に選択肢の数を入れることで動く。
+func chose(line int) int{
+	i := 1
+	line++
+	ansi.CursorUp(line)
+	ansi.CursorForward(2)
+	fmt.Printf(" >")
 
 	for {
 		x := getkey()
 		if x == 128 {
 			i--
-			if i >= 0 {
+			if i >= 1 {
 				ansi.CursorBack(1)
 				fmt.Printf(" ")
 				ansi.CursorBack(2)
@@ -71,7 +71,7 @@ func chose(line int, mode int) int{
 			}
 		} else if x == 129 {
 			i++
-			if i <= (line - 1) {
+			if i <= line {
 				ansi.CursorBack(1)
 				fmt.Printf(" ")
 				ansi.CursorBack(2)
@@ -93,6 +93,7 @@ func chose(line int, mode int) int{
 	return i
 }
 
+//文字を入力させる関数
 func namewrite() string {
 	str := ""
 	fmt.Println("　　　　　　なまえをきめてね")
@@ -220,8 +221,11 @@ func namewrite() string {
 					fmt.Printf(" ")
 					ansi.CursorPreviousLine(1)
 					fmt.Printf("なまえは　%s　でいいですか？\n",str)
-					fmt.Printf("  はい\n  いいえ")
-					if chose(2, 0) == 0 {
+					fmt.Println("-----------")
+					fmt.Println("|  はい　　|")
+					fmt.Println("|  いいえ　|")
+					fmt.Println("-----------")
+					if chose(2) == 1 {
 						fmt.Println(str,"さん、ようこそ！")
 						fmt.Println("")
 						return str
@@ -361,4 +365,20 @@ func namewrite() string {
 	}
 
 	return ""
+}
+
+//画面クリアする関数
+func cls() {
+	os_which := runtime.GOOS
+	switch os_which {
+		case "windows":
+			cmd := exec.Command("cmd", "/c", "cls") //Windows example, its tested
+			cmd.Stdout = os.Stdout
+			cmd.Run()
+
+		case "linux":
+			cmd := exec.Command("clear") //Linux example, its tested
+			cmd.Stdout = os.Stdout
+			cmd.Run()
+		}
 }
