@@ -1,6 +1,18 @@
 # DQProject
 
 > バグとかあったら教えてほしい。
+
+## プレイ方法
+
+DQ/test/DQ1.exeとDQ/Documentフォルダをダウンロードする
+DQ1.exeを実行する
+ディレクトリ構成は、このようにしないと動かないので注意
+├DQ1.exe
+└Document
+ ├lvup_status
+ ├monster_list
+ └player_list
+
 ## v3.0.0実装
 
 - 敵のランダム出現を実装
