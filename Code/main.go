@@ -5,6 +5,7 @@ import (
 	"os"
 	"fmt"
 	"github.com/k0kubun/go-ansi"
+	"github.com/fatih/color"
 )
 
 type status struct {	//小文字にしたら、Goのパッケージ内の関数に小文字から始まる関数内から、被らないらしい。
@@ -31,6 +32,8 @@ func main() {
 	var m_sta status
 
 	//ゲーム開始待機時のコンソール画面表示
+	//文字の色、太さ変更
+	color.Set(color.FgWhite, color.Bold)
 	fmt.Printf("Press ENTER to start")
 	ansi.CursorHide()
 	for {	//エンター待機
@@ -75,6 +78,7 @@ func main() {
 		time.Sleep(1 * time.Second)
 		cls()
 		delldata(&p_sta, line)
+		cls()
 		fmt.Println("")
 		fmt.Println("-----------")
 		fmt.Println("|  やめる　|")
@@ -130,4 +134,5 @@ func main() {
 	fmt.Println("")
 
 	time.Sleep(2 * time.Second)
+	color.Unset()	//文字設定リセット
 }

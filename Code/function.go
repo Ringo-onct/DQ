@@ -51,9 +51,8 @@ func getkey() int {
 //選択させる関数。引数に選択肢の数を入れることで動く。
 func chose(line int) int{
 	i := 1
-	line++
-	ansi.CursorUp(line)
-	ansi.CursorForward(2)
+	ansi.CursorUp(line + 1)
+	ansi.CursorForward(1)
 	fmt.Printf(" >")
 
 	for {
@@ -81,7 +80,7 @@ func chose(line int) int{
 				i--
 			}
 		} else if x == 13 {
-			x := i
+			x := i - 1
 			for x <= 1 {
 				ansi.CursorDown(1)
 				x++
@@ -220,13 +219,14 @@ func namewrite() string {
 					ansi.CursorBack(1)
 					fmt.Printf(" ")
 					ansi.CursorPreviousLine(1)
-					fmt.Printf("なまえは　%s　でいいですか？\n",str)
+					fmt.Println("")
+					fmt.Println("なまえは", str, "でいいですか？")
 					fmt.Println("-----------")
 					fmt.Println("|  はい　　|")
 					fmt.Println("|  いいえ　|")
 					fmt.Println("-----------")
 					if chose(2) == 1 {
-						fmt.Println(str,"さん、ようこそ！")
+						fmt.Println("勇者", str,"爆誕！")
 						fmt.Println("")
 						return str
 					} else {

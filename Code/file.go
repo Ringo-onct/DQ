@@ -8,7 +8,6 @@ import (
 	"time"
 	"fmt"
 	"log"
-	"github.com/k0kubun/go-ansi"
 )
 
 //プレイヤーのデータを読み込む
@@ -182,10 +181,6 @@ func delldata(p_sta *[]status, line int) int{
 	}
 	fmt.Println("--------------------------------")
 
-	fmt.Println("")
-	ansi.CursorNextLine(1)
-	ansi.CursorUp(line + 1)
-	ansi.CursorForward(2)
 	pl := chose(line) - 1	//配列に使うため-1している。
 
 	fmt.Println("本当に消してもいいですか？消したデータは二度と元に戻りません。")
@@ -206,12 +201,12 @@ func delldata(p_sta *[]status, line int) int{
 	for i = 0; i < line - 1; i++ {
 
 		if i < pl {
-			s = "a" + strconv.Itoa(i + 1) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari) + "," + strconv.Itoa((*p_sta)[i].gira) + "," + strconv.Itoa((*p_sta)[i].lari)
+			s = "a" + strconv.Itoa(i + 1) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari) + "," + strconv.Itoa((*p_sta)[i].gira) + "," + strconv.Itoa((*p_sta)[i].avo)
 		} else if i == pl {
 			i++
-			s = "a" + strconv.Itoa(i) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari) + "," + strconv.Itoa((*p_sta)[i].gira) + "," + strconv.Itoa((*p_sta)[i].lari)
+			s = "a" + strconv.Itoa(i) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari) + "," + strconv.Itoa((*p_sta)[i].gira) + "," + strconv.Itoa((*p_sta)[i].avo)
 		} else {
-			s = "a" + strconv.Itoa(i) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari) + "," + strconv.Itoa((*p_sta)[i].gira) + "," + strconv.Itoa((*p_sta)[i].lari)
+			s = "a" + strconv.Itoa(i) + "," + (*p_sta)[i].name + "," + strconv.Itoa((*p_sta)[i].atk) + "," + strconv.Itoa((*p_sta)[i].dif) + "," + strconv.Itoa((*p_sta)[i].hp) + "," + strconv.Itoa((*p_sta)[i].hp_max) + "," + strconv.Itoa((*p_sta)[i].mp) + "," + strconv.Itoa((*p_sta)[i].exp) + "," + strconv.Itoa((*p_sta)[i].gold) + "," + strconv.Itoa((*p_sta)[i].lari) + "," + strconv.Itoa((*p_sta)[i].gira) + "," + strconv.Itoa((*p_sta)[i].avo)
 		}
 		fmt.Fprintln(file, s)
 	}
@@ -230,7 +225,16 @@ func lvup(p_sta *status) {
 	scanner := bufio.NewScanner(filepass)
 	for scanner.Scan() {
 		line := scanner.Text()
-		seed = "a" + strconv.Itoa(p_sta.lari)
+		if p_sta.lari < 10 {
+			seed = "a" + strconv.Itoa(p_sta.lari)
+		} else if p_sta.lari < 20 {
+			seed = "b" + strconv.Itoa(p_sta.lari % 10)
+		} else if p_sta.lari < 30{
+			seed = "c" + strconv.Itoa(p_sta.lari % 10)
+		} else if p_sta.lari < 40 {
+			seed = "d" + strconv.Itoa(p_sta.lari % 10)
+		}
+
 		if strings.Contains(line, seed) {
 			fields := strings.Split(line, ",")
 			p_sta.atk, _ = strconv.Atoi(fields[1])

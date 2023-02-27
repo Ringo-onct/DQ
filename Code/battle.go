@@ -4,11 +4,11 @@ import (
 	"time"
 	"fmt"
 	"math/rand"
+	"github.com/fatih/color"
 )
 
 func battle(p_sta *status, m_sta *status) int{
 	var action int
-
 	rand.Seed(time.Now().UnixNano())	//乱数設定
 
 	cls()
@@ -17,6 +17,11 @@ func battle(p_sta *status, m_sta *status) int{
 	fileM(m_sta)	//monsterデータ読み込み
 
 	//エンカウント処理
+	if float32(p_sta.hp) <= float32(p_sta.hp_max) * 0.25 {
+		color.Set(color.FgRed)
+	} else {
+		color.Set(color.FgWhite)
+	}
 	if (m_sta.dif * rand.Intn(64)) > (p_sta.dif * rand.Intn(256)) {	//monsterの先制攻撃
 		fmt.Printf("%sは、%sがみがまえるまえにおそってきた！\n", m_sta.name, p_sta.name)
 
@@ -41,6 +46,11 @@ func battle(p_sta *status, m_sta *status) int{
 		//ダメージ処理
 		p_sta.hp -= m_sta.dmg
 
+		if float32(p_sta.hp) <= float32(p_sta.hp_max) * 0.25 {
+			color.Set(color.FgRed)
+		} else {
+			color.Set(color.FgWhite)
+		}
 		//勝敗判定
 		if p_sta.hp <= 0 {
 			time.Sleep(500 * time.Millisecond)
@@ -79,12 +89,12 @@ func battle(p_sta *status, m_sta *status) int{
 
 		//プレイヤーの行動選択
 		fmt.Println("")
-		fmt.Println("-----------")
+		fmt.Println("------------")
 		fmt.Println("|  にげる　|")
 		fmt.Println("|  こうげき|")
 		if p_sta.lari >= 3 {	//魔法は、lv3以上じゃないと使えないので、表示するレベルを制限する。
 			fmt.Println("|  まほう　|")
-			fmt.Println("-----------")
+			fmt.Println("------------")
 			action = chose(3)
 		} else {
 			fmt.Println("-----------")
@@ -303,6 +313,12 @@ func battle(p_sta *status, m_sta *status) int{
 			m_sta.hp -= p_sta.dmg
 		}
 
+		if float32(p_sta.hp) <= float32(p_sta.hp_max) * 0.25 {
+			color.Set(color.FgRed)
+		} else {
+			color.Set(color.FgWhite)
+		}
+
 		//勝敗判定
 		if m_sta.hp <= 0 {		//勝利処理
 			fmt.Println(m_sta.name, "をたおした！")
@@ -393,32 +409,14 @@ func battle(p_sta *status, m_sta *status) int{
 		m_sta.dmg = 0
 		if m_sta.flag % 10 >= 2 {
 			m_sta.flag = m_sta.flag - (m_sta.flag % 10) + 1
+		} else if m_sta.flag % 10 == 1 && rand.Intn(3) == 0{
+			m_sta.flag = m_sta.flag - (m_sta.flag % 10)
+			fmt.Printf("%sは目を覚ました！\n", m_sta.name)
 		} else if m_sta.flag % 10 == 1 {
-			if rand.Intn(3) == 0 {
-				m_sta.flag = m_sta.flag - (m_sta.flag % 10)
-				fmt.Printf("%sは目を覚ました！\n", m_sta.name)
+			fmt.Printf("%sは戦闘中にもかかわらず眠っているようだ。\n", m_sta.name)
+		}
 
-				time.Sleep(1 * time.Second)
-				fmt.Println(m_sta.name, "のこうげき")
-				time.Sleep(500 * time.Millisecond)
-				//ダメージの計算
-				if (m_sta.atk - p_sta.dif / 4 ) >= m_sta.atk / 2 + 1 {
-					m_sta.dmg = (rand.Intn(256) * (m_sta.atk - p_sta.dif / 4 + 1) / 256 + m_sta.atk - p_sta.dif / 4) / 4
-				} else if m_sta.atk - p_sta.dif / 2 < 0 {
-					m_sta.dmg = rand.Intn(256) * (m_sta.atk / 2 + 1) / 256 + 2
-				} else {
-					m_sta.dmg = rand.Intn(256) * (m_sta.atk / 2 + 1) / 256 + 2
-				}
-
-				if m_sta.dmg == 0 {
-					fmt.Println("ミス！")
-					time.Sleep(500 * time.Millisecond)
-					fmt.Println("ダメージをうけない！")
-				} else {
-					fmt.Printf("%sは%dのダメージをうけた！\n", p_sta.name, m_sta.dmg)
-				}
-			}
-		} else {
+		if m_sta.flag % 10 == 0 {
 			fmt.Println(m_sta.name, "のこうげき")
 			time.Sleep(500 * time.Millisecond)
 			//ダメージの計算
@@ -441,12 +439,18 @@ func battle(p_sta *status, m_sta *status) int{
 			p_sta.hp -= m_sta.dmg
 		}
 
+		if float32(p_sta.hp) <= float32(p_sta.hp_max) * 0.25 {
+			color.Set(color.FgRed)
+		} else {
+			color.Set(color.FgWhite)
+		}
 
 		//勝敗判定
 		if p_sta.hp <= 0 {
 			time.Sleep(500 * time.Millisecond)
 			fmt.Println("")
 			fmt.Println(p_sta.name, "はたおれた。。")
+			time.Sleep(2 * time.Second)
 			return 1
 		}
 
@@ -459,6 +463,7 @@ func battle(p_sta *status, m_sta *status) int{
 	fmt.Println("|  つづける|")
 	fmt.Println("-----------")
 	if chose(2) == 1 {
+		color.Set(color.FgWhite)	//色を元に戻す
 		return 1
 	}
 
