@@ -44,7 +44,7 @@ func main() {
 	}
 
 	cls()
-	for i := 0; i < line; i++ {	//ファイルにある分のplayerデータ読み込み
+	for i, _ := range p_sta {	//ファイルにある分のplayerデータ読み込み
 		fileP(&p_sta[i], i + 1)
 	}
 
