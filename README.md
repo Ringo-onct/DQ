@@ -4,8 +4,9 @@
 
 ## プレイ方法
 
-DQ/test/DQ1.exeとDQ/Documentフォルダをダウンロードする
-DQ1.exeを実行する
+1. DQ/test/DQ1.exeとDQ/Documentフォルダをダウンロードする  
+2. DQ1.exeを実行する  
+
 ディレクトリ構成は、このようにしないと動かないので注意
 ```
 ├ DQ1.exe
