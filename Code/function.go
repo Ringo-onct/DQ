@@ -4,9 +4,6 @@ package main
 import (
 	"log"
 	"fmt"
-	"runtime"
-	"os/exec"
-	"os"
 
 	"github.com/mattn/go-tty"
 	"github.com/k0kubun/go-ansi"
