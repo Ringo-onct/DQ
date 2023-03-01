@@ -27,7 +27,7 @@ func getkey() int {
 		if r != 0 {
 			if int(r) == 27 {
 				key = 1
-			} else if r == 91 {
+			} else if key == 1 && r == 91 {
 				key = 2
 			} else if key == 2 {
 				switch r {
@@ -369,16 +369,5 @@ func namewrite() string {
 
 //画面クリアする関数
 func cls() {
-	os_which := runtime.GOOS
-	switch os_which {
-		case "windows":
-			cmd := exec.Command("cmd", "/c", "cls") //Windows example, its tested
-			cmd.Stdout = os.Stdout
-			cmd.Run()
-
-		case "linux":
-			cmd := exec.Command("clear") //Linux example, its tested
-			cmd.Stdout = os.Stdout
-			cmd.Run()
-		}
+	fmt.Print("\033[2J", "\033[1;1H")
 }
