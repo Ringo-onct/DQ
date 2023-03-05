@@ -4,7 +4,6 @@ import (
 	"time"
 	"fmt"
 	"math/rand"
-	"github.com/fatih/color"
 )
 
 func battle(p_sta *status, m_sta *status) int{
@@ -18,9 +17,9 @@ func battle(p_sta *status, m_sta *status) int{
 
 	//エンカウント処理
 	if float32(p_sta.hp) <= float32(p_sta.hp_max) * 0.25 {
-		color.Set(color.FgRed)
+		fmt.Print("\033[31m")
 	} else {
-		color.Set(color.FgWhite)
+		fmt.Print("\033[37m")
 	}
 	if (m_sta.dif * rand.Intn(64)) > (p_sta.dif * rand.Intn(256)) {	//monsterの先制攻撃
 		fmt.Printf("%sは、%sがみがまえるまえにおそってきた！\n", m_sta.name, p_sta.name)
@@ -47,9 +46,9 @@ func battle(p_sta *status, m_sta *status) int{
 		p_sta.hp -= m_sta.dmg
 
 		if float32(p_sta.hp) <= float32(p_sta.hp_max) * 0.25 {
-			color.Set(color.FgRed)
+			fmt.Print("\033[31m")
 		} else {
-			color.Set(color.FgWhite)
+			fmt.Print("\033[37m")
 		}
 		//勝敗判定
 		if p_sta.hp <= 0 {
@@ -314,9 +313,9 @@ func battle(p_sta *status, m_sta *status) int{
 		}
 
 		if float32(p_sta.hp) <= float32(p_sta.hp_max) * 0.25 {
-			color.Set(color.FgRed)
+			fmt.Print("\033[31m")
 		} else {
-			color.Set(color.FgWhite)
+			fmt.Print("\033[37m")
 		}
 
 		//勝敗判定
@@ -440,9 +439,9 @@ func battle(p_sta *status, m_sta *status) int{
 		}
 
 		if float32(p_sta.hp) <= float32(p_sta.hp_max) * 0.25 {
-			color.Set(color.FgRed)
+			fmt.Print("\033[31m")
 		} else {
-			color.Set(color.FgWhite)
+			fmt.Print("\033[37m")
 		}
 
 		//勝敗判定
@@ -463,7 +462,7 @@ func battle(p_sta *status, m_sta *status) int{
 	fmt.Println("|  つづける|")
 	fmt.Println("-----------")
 	if chose(2) == 1 {
-		color.Set(color.FgWhite)	//色を元に戻す
+		fmt.Print("\033[37m")	//色を元に戻す
 		return 1
 	}
 

@@ -4,8 +4,6 @@ import (
 	"time"
 	"os"
 	"fmt"
-	"github.com/k0kubun/go-ansi"
-	"github.com/fatih/color"
 )
 
 type status struct {	//小文字にしたら、Goのパッケージ内の関数に小文字から始まる関数内から、被らないらしい。
@@ -33,9 +31,9 @@ func main() {
 
 	//ゲーム開始待機時のコンソール画面表示
 	//文字の色、太さ変更
-	color.Set(color.FgWhite, color.Bold)
+	fmt.Print("\033[1m\033[37m")
 	fmt.Printf("Press ENTER to start")
-	ansi.CursorHide()
+	fmt.Print("\033[?25l")
 	for {	//エンター待機
 		x := getkey()
 		if x == 13 {
@@ -134,5 +132,5 @@ func main() {
 	fmt.Println("")
 
 	time.Sleep(2 * time.Second)
-	color.Unset()	//文字設定リセット
+	fmt.Print("\033[0m")	//文字設定リセット
 }
